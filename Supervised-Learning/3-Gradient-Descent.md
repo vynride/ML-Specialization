@@ -35,7 +35,7 @@ The process is intuitive:
 
 This can be visualized as walking downhill on a graph of the cost function until you reach the lowest point.
 
-![Visualizing Gradient Descent](images/gradient-descent-1.png)
+![Visualizing Gradient Descent](images/M1/gradient-descent-1.png)
 
 The core of the algorithm involves simultaneously updating the parameters `w` and `b` using their partial derivatives with respect to the cost function.
 
@@ -53,8 +53,8 @@ repeat until convergence {
 -   **∂J(w,b)/∂w**: The partial derivative (or gradient) of the cost function with respect to `w`. This tells us the slope of the cost function in the `w` direction.
 -   **∂J(w,b)/∂b**: The partial derivative of the cost function with respect to `b`.
 
-![Gradient Descent Algorithm Flow](images/gradient-descent-algorithm.png)
-![Gradient Descent Algorithm Details](images/gradient-descent-algorithm-2.png)
+![Gradient Descent Algorithm Flow](images/M1/gradient-descent-algorithm.png)
+![Gradient Descent Algorithm Details](images/M1/gradient-descent-algorithm-2.png)
 
 #### 💡 The Importance of the Learning Rate (α)
 
@@ -63,19 +63,19 @@ Choosing the right learning rate is crucial for the success of Gradient Descent.
 -   **If α is too small:** The algorithm will take very slow, tiny steps, leading to a long convergence time.
 -   **If α is too large:** The algorithm might "overshoot" the minimum, causing the cost to oscillate or even increase. In the worst case, it can **diverge**, with the cost growing indefinitely.
 
-![Choosing the right learning rate](images/learning-rate-1.png)
+![Choosing the right learning rate](images/M1/learning-rate-1.png)
 
 A key feature of Gradient Descent is that as it approaches a local minimum, the slope (derivative) of the cost function naturally gets smaller. This means the update steps (`α * derivative`) automatically become smaller, allowing the algorithm to fine-tune its position without overshooting the minimum.
 
-![Approaching a local minimum](images/local-minimum.png)
-![Update steps get smaller near a minimum](images/learning-rate-2.png)
+![Approaching a local minimum](images/M1/local-minimum.png)
+![Update steps get smaller near a minimum](images/M1/learning-rate-2.png)
 
 Here's a recap of the formulas involved:
-![Formula Recap](images/formula-recap.png)
+![Formula Recap](images/M1/formula-recap.png)
 
 And the derivation for the gradient components:
-![Gradient Descent Derivation](images/gradient-descent-derivation.png)
-![Gradient Descent Formulae](images/gradient-descent-formulae.png)
+![Gradient Descent Derivation](images/M1/gradient-descent-derivation.png)
+![Gradient Descent Formulae](images/M1/gradient-descent-formulae.png)
 
 ### Gradient Descent for Linear Regression
 
@@ -83,13 +83,13 @@ When we use Gradient Descent with a **Squared Error Cost Function** (the standar
 
 > ***Editor's Note:*** A convex function is a "bowl-shaped" function that has no local minima—it only has one single global minimum. This is a very important property, as it guarantees that Gradient Descent, given a suitable learning rate, will always converge to the best possible solution (the global minimum) and not get stuck in a suboptimal local minimum.
 
-![Convex Cost Function](images/gradient-descent-on-sq-error-cost-function.png)
+![Convex Cost Function](images/M1/gradient-descent-on-sq-error-cost-function.png)
 
 ### 📦 Batch Gradient Descent
 
 The version of Gradient Descent described here is known as **Batch Gradient Descent**. The term "batch" refers to the fact that **every single training example** from the dataset is used to compute the gradient in each step of the descent.
 
-![Batch Gradient Descent](images/batch-gradient-descent.png)
+![Batch Gradient Descent](images/M1/batch-gradient-descent.png)
 
 > ***Editor's Note:*** This is in contrast to other variants like **Stochastic Gradient Descent (SGD)**, which uses a single example per step, and **Mini-Batch Gradient Descent**, which uses a small subset (a mini-batch) of examples. Batch Gradient Descent is computationally expensive for large datasets but provides a more stable and direct path to the minimum.
 
@@ -97,8 +97,8 @@ The version of Gradient Descent described here is known as **Batch Gradient Desc
 
 Test your understanding with these questions.
 
-![Quiz Question 1](images/quiz-1.png)
-![Quiz Question 2](images/quiz-2.png)
+![Quiz Question 1](images/M1/quiz-1.png)
+![Quiz Question 2](images/M1/quiz-2.png)
 
 ### 🐍 Python Implementation
 
@@ -280,8 +280,8 @@ plt.show()
 
 These notes provide a final, condensed overview of the key concepts of Gradient Descent.
 
-![Gradient Descent Summary 1](images/gradient-descent-note-1.png)
-![Gradient Descent Summary 2](images/gradient-descent-note-2.png)
+![Gradient Descent Summary 1](images/M1/gradient-descent-note-1.png)
+![Gradient Descent Summary 2](images/M1/gradient-descent-note-2.png)
 
 ---
 

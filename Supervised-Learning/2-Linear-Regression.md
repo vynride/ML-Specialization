@@ -6,7 +6,7 @@ This document compiles notes on Supervised Machine Learning, focusing on the fou
 
 Linear Regression is a fundamental algorithm used to predict a continuous numerical value. We start by building a model that can predict housing prices based on the size of the house.
 
-![Linear Regression Model Diagram](images/linear-regression.png)
+![Linear Regression Model Diagram](images/M1/linear-regression.png)
 
 ### 📝 Notation
 
@@ -35,7 +35,7 @@ Here:
 -   `b` is the **bias** of the model (determines the y-intercept).
 -   `w` and `b` are also called the **parameters** of the model.
 
-![Linear Regression Function](images/linear-regression-2.png)
+![Linear Regression Function](images/M1/linear-regression-2.png)
 
 ### 🧪 Lab: Model Representation in Python
 
@@ -118,17 +118,17 @@ To find the best possible line to fit our data, we need a way to measure how wel
 
 The cost function measures the difference (or error) between the model's predictions (`ŷ`) and the actual target values (`y`). For linear regression, the most common cost function is the **Squared Error Cost Function**.
 
-![Cost Function Formula](images/cost-function.png)
+![Cost Function Formula](images/M1/cost-function.png)
 
 > **Goal:** Find the values of `w` and `b` that **minimize** the cost function `J(w, b)`.
 
-![Goal of Minimizing Cost](images/goal.png)
+![Goal of Minimizing Cost](images/M1/goal.png)
 
 ### 🤔 Cost Function Intuition
 
 Let's simplify our model to build intuition. Assume `b = 0`, so our model is just `f_w(x) = w*x`. The line must pass through the origin.
 
-![Simplified Linear Regression](images/simplified-linear-regression.png)
+![Simplified Linear Regression](images/M1/simplified-linear-regression.png)
 
 Now, our cost function `J` only depends on `w`: `J(w)`. We can plot `J(w)` versus `w`.
 
@@ -139,37 +139,37 @@ The plots below show how changing `w` affects both the model's prediction line a
 
 | Model `f_w(x)` (Prediction Line) | Cost Function `J(w)` |
 | :---: | :---: |
-| ![Model for w=1](images/fwx-vs-jw.png) | The cost `J(w)` is 0 when w=1, which is the optimal value. |
-| ![Model for w=0.5](images/fwx-vs-jw-2.png) | The cost `J(w)` is higher when w=0.5. |
-| ![Model for w=1.5](images/fwx-vs-jw-3.png) | The cost `J(w)` is also higher when w=1.5. |
+| ![Model for w=1](images/M1/fwx-vs-jw.png) | The cost `J(w)` is 0 when w=1, which is the optimal value. |
+| ![Model for w=0.5](images/M1/fwx-vs-jw-2.png) | The cost `J(w)` is higher when w=0.5. |
+| ![Model for w=1.5](images/M1/fwx-vs-jw-3.png) | The cost `J(w)` is also higher when w=1.5. |
 
 Plotting `J(w)` for a range of `w` values gives us a parabola (a bowl shape). Our goal is to find the value of `w` at the bottom of the bowl, where the cost is at its minimum.
 
-![J(w) Plot](images/jw-plot.png)
-![Minimizing J(w)](images/minimizing-jw.png)
+![J(w) Plot](images/M1/jw-plot.png)
+![Minimizing J(w)](images/M1/minimizing-jw.png)
 
 ### 🎨 Visualizing the Full Cost Function `J(w, b)`
 
 When we re-introduce the bias term `b`, our cost function `J(w, b)` depends on two parameters. Visualizing this requires a 3D plot.
 
-![Cost Function Visualization Goals](images/cost-function-minimization-goals.png)
+![Cost Function Visualization Goals](images/M1/cost-function-minimization-goals.png)
 
 The 3D surface plot of `J(w, b)` forms a "bowl" shape. The lowest point of the bowl represents the minimum cost, and the `w` and `b` values at that point are our optimal parameters.
 
-![3D Surface Plot of J(w,b)](images/3d-surface-plot-of-jwb.png)
+![3D Surface Plot of J(w,b)](images/M1/3d-surface-plot-of-jwb.png)
 
 A more convenient way to visualize this in 2D is using a **Contour Plot**. Imagine slicing the 3D bowl horizontally at different heights. The outlines of these slices, when viewed from above, form the contour plot.
 
-![Mount Fuji Contour Map Analogy](images/mt-fuji-contour-map.png)
+![Mount Fuji Contour Map Analogy](images/M1/mt-fuji-contour-map.png)
 
 Each ellipse on the contour plot represents a set of `(w, b)` pairs that result in the *same* cost `J(w, b)`. The center of the innermost ellipse is the point of minimum cost.
 
-![Cost Function 3D and Contour Plots](images/cost-function-3d-plot.png)
-![Contour Plot of J(w,b)](images/contour-plot-of-jwb.png)
+![Cost Function 3D and Contour Plots](images/M1/cost-function-3d-plot.png)
+![Contour Plot of J(w,b)](images/M1/contour-plot-of-jwb.png)
 
 As we move the point `(w, b)` on the contour plot, the prediction line `f(x)` on the data plot changes. The goal is to find the center of the ellipses, which corresponds to the best-fit line.
 
-![Cost Function Visualization Example](images/cost-function-visualization.png)
+![Cost Function Visualization Example](images/M1/cost-function-visualization.png)
 
 ### 🧪 Lab: Visualizing the Cost Function
 
@@ -233,11 +233,11 @@ soup_bowl()
 The core formulas for the Linear Regression model and its cost function are:
 
 1.  **Model (Hypothesis):** The prediction `f(x)` for a single input `x`.
-    ![Model Formula](images/note.png)
+    ![Model Formula](images/M1/note.png)
     > **f<sub>w,b</sub>(x<sup>(i)</sup>) = w * x<sup>(i)</sup> + b**
 
 2.  **Cost Function:** `J(w, b)` measures the average squared error over all `m` training examples.
-    ![Cost Function Formula](images/note-2.png)
+    ![Cost Function Formula](images/M1/note-2.png)
     > **J(w,b) = (1 / 2m) * Σ<sub>i=1</sub><sup>m</sup> (f<sub>w,b</sub>(x<sup>(i)</sup>) - y<sup>(i)</sup>)<sup>2</sup>**
 
     Where:
