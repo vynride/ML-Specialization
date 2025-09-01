@@ -817,3 +817,15 @@ plt.show()
 The plots show the cost decreasing rapidly at first and then slowly converging, which is the expected behavior of gradient descent.  
 
 These results are not inspiring! Cost is still declining and our predictions are not very accurate. The next lab will explore how to improve on this.
+
+
+## Practice Quiz: Multiple linear regression  
+
+Question 1:
+![](images/M2/quiz-q1.png)
+  
+Question 2:
+![](images/M2/quiz-q2.png)
+  
+Question 3:
+![](images/M2/quiz-q3.png)
