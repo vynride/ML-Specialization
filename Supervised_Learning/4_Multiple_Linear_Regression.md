@@ -814,4 +814,6 @@ plt.show()
 
 ![Gradient Descent for Multiple Variables Plot](images/M2/gradient-descent-for-multiple-variables-plot.png)
 
-The plots show the cost decreasing rapidly at first and then slowly converging, which is the expected behavior of gradient descent.
+The plots show the cost decreasing rapidly at first and then slowly converging, which is the expected behavior of gradient descent.  
+
+These results are not inspiring! Cost is still declining and our predictions are not very accurate. The next lab will explore how to improve on this.
