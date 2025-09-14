@@ -1,6 +1,6 @@
-# 📚 Supervised Machine Learning: Regression & Classification
+# 📚 Supervised Machine Learning: Regression
 
-This document compiles notes on Supervised Machine Learning, focusing on the foundational concepts of regression and classification.
+This document compiles notes on Supervised Machine Learning, focusing on the foundational concept of regression.
 
 ## 📈 Chapter 1: Linear Regression
 

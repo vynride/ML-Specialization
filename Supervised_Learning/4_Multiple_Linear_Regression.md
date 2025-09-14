@@ -1,4 +1,4 @@
-# 🧠 Machine Learning Notes: Multiple Features & Vectorization
+# 🧠 Multiple Features & Vectorization
 
 This document covers linear regression with multiple input variables, the concept of vectorization for computational efficiency, a practical guide to the NumPy library, and a hands-on lab implementation.
 
