@@ -1,70 +1,76 @@
-// Classification
+# 🧠 Classification with Logistic Regression
 
-Output variable takes only one out of a handful of possible values.
+### 📚 Table of Contents
+*   [Classification](#-classification)
+*   [Why not Linear Regression?](#-why-not-linear-regression)
+*   [Logistic Regression](#-logistic-regression)
+*   [Decision Boundary](#-decision-boundary)
+*   [Practice Quiz](#-practice-quiz)
 
-Examples: Say answer is "y", so "y" can take either of two values "no" or "yes"
-1. Is this email spam? 
-Answer: no, yes
-2. Is the transaction fraudulent?
-Answer: no, yes
-3. Is this tumor malignant?
-Answer: no, yes
+---
 
-![](images/M3/classification-problems.png)
+## 📝 Classification
 
-Binary Classification
-Only two possible classes or categories to classify into.
+In machine learning, **classification** is a type of supervised learning where the output variable `y` is a category, not a continuous number. The model's goal is to predict which category a new observation belongs to.
 
-Notation:
-Negative Class:
-no, false, 0
+**Examples:**
+*   📧 Is this email spam? (Yes/No)
+*   💳 Is the transaction fraudulent? (Yes/No)
+*   🩺 Is this tumor malignant? (Yes/No)
 
-Positive Class:
-yes, true, 1 
+![Classification Problems](images/M3/classification-problems.png)
 
-Linear Regression is not a good algorithm for classification
+### Binary Classification
+This is the simplest form of classification, where the output variable `y` can only take on one of two possible values or classes.
 
-After adding an outlier training example to the dataset we set the threshold to 0.5.
+**Notation:**
+We often use specific terms and numerical representations for these two classes:
+*   **Negative Class (0):** Represents the absence of something (e.g., "no", "false", "not spam", "benign tumor").
+*   **Positive Class (1):** Represents the presence of something (e.g., "yes", "true", "spam", "malignant tumor").
 
-Linear Regression causes the best fit line to shift over, thus causing the dividing line (decision boundary) to shift over to the right hence causing it to mis-classify examples.
+---
 
+## 🤔 Why not Linear Regression?
 
-![](images/M3/motivations.png)
+At first glance, one might think of using linear regression for classification problems. However, it's not a suitable algorithm.
 
+When we use linear regression, the model fits a straight line to the data. If we set a threshold (e.g., 0.5) to decide the class, it might work for a simple dataset. But, this approach is very sensitive to outliers.
 
-// Lab
-// Classification
+If we add an outlier to the training data, the best-fit line of the linear regression model will shift significantly. This shift also moves the decision threshold, leading to misclassification of existing data points.
 
-Goal
-In this lab, you will contrast regression and classification.
+![Motivation for Logistic Regression](images/M3/motivations.png)
+*As seen above, adding a single outlier point on the right causes the linear model's decision boundary to shift, resulting in an incorrect prediction for the point at x=3.*
 
+<details>
+<summary><b>🧪 Lab: Demonstrating the Problem with Linear Regression</b></summary>
+
+### Goal
+In this lab, you will contrast regression and classification and see why linear regression is not ideal for classification tasks.
+
+### Code
+```python
 import numpy as np
 %matplotlib widget
 import matplotlib.pyplot as plt
 from lab_utils_common import dlc, plot_data
 from plt_one_addpt_onclick import plt_one_addpt_onclick
-plt.style.use('./deeplearning.mplstyle')  
+plt.style.use('./deeplearning.mplstyle')
 
-
-Examples of classification problems are things like: identifying email as Spam or Not Spam or determining if a tumor is malignant or benign. In particular, these are examples of binary classification where there are two possible outcomes. Outcomes can be described in pairs of 'positive'/'negative' such as 'yes'/'no, 'true'/'false' or '1'/'0'.  
-
-Plots of classification data sets often use symbols to indicate the outcome of an example. In the plots below, 'X' is used to represent the positive values while 'O' represents negative outcomes.  
-
-
+# Example Data
 x_train = np.array([0., 1, 2, 3, 4, 5])
 y_train = np.array([0,  0, 0, 1, 1, 1])
 X_train2 = np.array([[0.5, 1.5], [1,1], [1.5, 0.5], [3, 0.5], [2, 2], [1, 2.5]])
-y_train2 = np.array([0, 0, 0, 1, 1, 1])  
+y_train2 = np.array([0, 0, 0, 1, 1, 1])
 
-
+# Plotting the data
 pos = y_train == 1
 neg = y_train == 0
 
 fig,ax = plt.subplots(1,2,figsize=(8,3))
 #plot 1, single variable
 ax[0].scatter(x_train[pos], y_train[pos], marker='x', s=80, c = 'red', label="y=1")
-ax[0].scatter(x_train[neg], y_train[neg], marker='o', s=100, label="y=0", facecolors='none', 
-              edgecolors=dlc["dlblue"],lw=3)
+ax[0].scatter(x_train[neg], y_train[neg], marker='o', s=100, label="y=0", facecolors='none',
+edgecolors=dlc["dlblue"],lw=3)
 
 ax[0].set_ylim(-0.08,1.1)
 ax[0].set_ylabel('y', fontsize=12)
@@ -80,313 +86,170 @@ ax[1].set_xlabel('$x_0$', fontsize=12)
 ax[1].set_title('two variable plot')
 ax[1].legend()
 plt.tight_layout()
-plt.show()  
+plt.show()
 
-![](images/M3/one-and-two-variable-plots.png)
+```
 
+### Observations
+Plots of classification data often use symbols to indicate the outcome. Here, 'X' represents the positive class (1) and 'O' represents the negative class (0).
 
-Note in the plots above:
+![One and Two Variable Plots](images/M3/one-and-two-variable-plots.png)
 
-In the single variable plot, positive results are shown both a red 'X's and as y=1. Negative results are blue 'O's and are located at y=0.
+### Linear Regression Approach
+Running linear regression on this data initially seems to work if we apply a 0.5 threshold. Predictions match the data.
 
-Recall in the case of linear regression, y would not have been limited to two values but could have been any value.
+![Linear Regression - Case 1](images/M3/linear-regression-case-1.png)
 
+However, adding more 'malignant' data points on the far right and re-running the regression causes the model to shift. This leads to incorrect predictions for points that were previously classified correctly.
 
-In the two-variable plot, the y axis is not available. Positive results are shown as red 'X's, while negative results use the blue 'O' symbol.
+![Linear Regression - Case 2](images/M3/linear-regression-case-2.png)
 
-Recall in the case of linear regression with multiple variables, y would not have been limited to two values and a similar plot would have been three-dimensional.
+### Conclusion
+This lab demonstrates that a linear model is insufficient for categorical data. We need a model better suited for classification, which brings us to Logistic Regression.
 
+</details>
 
-// Linear Regression approach
+---
 
-In the previous week, you applied linear regression to build a prediction model. Let's try that approach here using the simple example that was described in the lecture. The model will predict if a tumor is benign or malignant based on tumor size. Try the following:
+## 🤖 Logistic Regression
 
-Click on 'Run Linear Regression' to find the best linear regression model for the given data.
+Logistic Regression is one of the most popular and widely used classification algorithms in the world. It is a go-to method for binary classification problems.
 
-Note the resulting linear model does not match the data well. One option to improve the results is to apply a threshold.
+### Sigmoid Function (or Logistic Function)
+The core of logistic regression is the **Sigmoid Function**, denoted as `g(z)`. This function takes any real-valued number `z` and squashes it into a value between 0 and 1.
 
-Tick the box on the 'Toggle 0.5 threshold' to show the predictions if a threshold is applied.
+The formula is:
+`g(z) = 1 / (1 + e^(-z))`
 
-These predictions look good, the predictions match the data
+Where `e` is Euler's number (approximately 2.718).
 
-Important: Now, add further 'malignant' data points on the far right, in the large tumor size range (near 10), and re-run linear regression.
+*   When `z` is a large positive number, `e^(-z)` is close to 0, so `g(z)` is close to **1**.
+*   When `z` is a large negative number, `e^(-z)` is a very large number, so `g(z)` is close to **0**.
+*   When `z = 0`, `e^0 = 1`, so `g(z)` is **0.5**.
 
-Now, the model predicts the larger tumor, but data point at x=3 is being incorrectly predicted!  
+![Sigmoid Function Graph](images/M3/sigmoid-function.png)
 
-to clear/renew the plot, rerun the cell containing the plot command.  
+### Logistic Regression Model
+The model itself combines the linear regression formula with the sigmoid function.
 
+![Logistic Regression Model](images/M3/logistic-regression-model.png)
 
-![](images/M3/linear-regression-case-1.png)  
+The output of this model, `f_wb(x)`, is interpreted as the probability that the output `y` is 1, given the input `x` and parameters `w` and `b`.
 
-If we add more malignant data points to the right then the data point at x = 3 is incorrectly classified as benign  
+![Interpretation of Logistic Regression Output](images/M3/interpretation-of-logistic-regression.png)
 
-![](images/M3/linear-regression-case-2.png)  
+This can be written as: `f_wb(x) = P(y = 1 | x; w, b)`
 
-The example above demonstrates that the linear model is insufficient to model categorical data. The model can be extended as described in the following lab.  
+> **Real-World Application:** A variation of logistic regression was a key driver behind early online advertising systems, deciding which ads to show to which users to maximize the probability of a click.
 
-In this lab you:
+---
 
-explored categorical data sets and plotting
-determined that linear regression was insufficient for a classification problem.  
+## Decision Boundary
 
+The decision boundary is the line or surface that separates the different classes predicted by the model.
 
-// Logistic Regression
+For logistic regression, we typically predict `y=1` if `f_wb(x) >= 0.5` and `y=0` if `f_wb(x) < 0.5`.
 
-Most widely used classification algorithm in the world.
+Since `g(z) >= 0.5` when `z >= 0`, the decision boundary corresponds to the line where `z = 0`.
+`z = w · x + b = 0`
 
-Sigmoid Function
+This equation defines the decision boundary.
 
-Outputs values between 0 and 1 i.e. 0 < g(z) < 1
+![Decision Boundary Example 1](images/M3/decision-boundary.png)
 
-g(z) = 1 / (1 + e^(-z))
-e is 2.71 (approx)
+For a model with two features (`x1`, `x2`), the decision boundary is a line given by `w1*x1 + w2*x2 + b = 0`.
 
-When z is large: g(z) will be a number very close to 1  
+![Decision Boundary Example 2](images/M3/decision-boundary-2.png)
 
-When z is small: g(z) will be a number very close to 0  
+### Complex Non-Linear Decision Boundaries
+Logistic regression can also model complex, non-linear relationships by using **polynomial features**. Instead of just using `x1` and `x2`, we can create new features like `x1^2`, `x2^2`, `x1*x2`, etc.
 
-When z = 0: g(z) will be 0.5 (y intercept)
+The model then becomes:
+`f_wb(x) = g(w1*x1 + w2*x2 + w3*x1^2 + w4*x1*x2 + ... + b)`
 
-![](images/M3/sigmoid-function.png)  
+By setting the argument `z` to zero, we can create more complex decision boundaries, such as circles or other curved shapes.
 
-Logistic Regression Model:
+![Complex Decision Boundary](images/M3/complex-decision-boundary.png)
 
-![](images/M3/logistic-regression-model.png)  
+Without these higher-order polynomial features, the decision boundary for logistic regression will always be linear.
 
-Interpretation of Logistic Regression output
+![Non-Linear Decision Boundary](images/M3/non-linear-decision-boundary.png)
 
-![](images/M3/interpretation-of-logistic-regression.png)  
+> **Question:** Let's say you are creating a tumor detection algorithm. Your algorithm will be used to flag potential tumors for future inspection by a specialist. What value should you use for a threshold?
+> *   A. High, say a threshold of 0.9?
+> *   B. Low, say a threshold of 0.2?
+>
+> **Answer:** B. You would not want to miss a potential tumor (a false negative), so you should use a low threshold. A specialist will review the output, which helps mitigate the impact of any false positives. This highlights that the threshold does not always have to be 0.5.
 
-Question:
-![](images/M3/que-1.png)  
-Recall the sigmoid function is g(z)=1/(1+e^-z)  
-  
-If z is a large negative number then:  
-A. g(z) is near negative one (-1)   
-B. g(z) is near zero  
+<details>
+<summary><b>🧪 Lab: Logistic Regression and Decision Boundaries</b></summary>
 
-Answer: B. Say z = -100. Then e^100 is a really big number. So g(z) = 1/(1 + a big positive number) or about 0.  
+### Goals
+*   Explore the sigmoid function.
+*   Implement and visualize logistic regression.
+*   Plot the decision boundary for a logistic regression model.
 
-Earlier advertising was actually driven by a variation of Logistic Regression which decided which advertisement was shown to which person.  
+### Code: Sigmoid Function
+The `numpy.exp()` function is used to compute `e^z`.
 
-
-Lab: Logistic Regression
-
-- explore the sigmoid function (also known as the logistic function)
-- explore logistic regression; which uses the sigmoid function
-
-import numpy as np
-%matplotlib widget
-import matplotlib.pyplot as plt
-from plt_one_addpt_onclick import plt_one_addpt_onclick
-from lab_utils_common import draw_vthresh
-plt.style.use('./deeplearning.mplstyle')
-
-
-// Sigmoid or Logistic Function
-
-
-![](images/M3/sigmoid-function-1.png)  
-
-![](images/M3/sigmoid-function-2.png)  
-
-
-NumPy has a function called exp(), which offers a convenient way to calculate the exponential (𝑒^𝑧) of all elements in the input array (z).
-
-It also works with a single number as an input, as shown below.
-
-
-
-# Input is an array. 
-input_array = np.array([1,2,3])
-exp_array = np.exp(input_array)
-
-print("Input to exp:", input_array)
-print("Output of exp:", exp_array)
-
-# Input is a single number
-input_val = 1  
-exp_val = np.exp(input_val)
-
-print("Input to exp:", input_val)
-print("Output of exp:", exp_val)
-
-
-Output:
-
-Input to exp: [1 2 3]
-Output of exp: [ 2.72  7.39 20.09]
-Input to exp: 1
-Output of exp: 2.718281828459045
-
-
-The sigmoid function is implemented in python as shown in the cell below.
-
-
-def sigmoid(z):
-    """
-    Compute the sigmoid of z
-
-    Args:
-        z (ndarray): A scalar, numpy array of any size.
-
-    Returns:
-        g (ndarray): sigmoid(z), with the same shape as z
-         
-    """
-
-    g = 1/(1+np.exp(-z))
-   
-    return g
-    
-    
-Let's see what the output of this function is for various value of z
-
-
-# Generate an array of evenly spaced values between -10 and 10
-z_tmp = np.arange(-10,11)
-
-# Use the function implemented above to get the sigmoid values
-y = sigmoid(z_tmp)
-
-# Code for pretty printing the two arrays next to each other
-np.set_printoptions(precision=3) 
-print("Input (z), Output (sigmoid(z))")
-print(np.c_[z_tmp, y])
-
-
-
-
-The values in the left column are z, and the values in the right column are sigmoid(z). As you can see, the input values to the sigmoid range from -10 to 10, and the output values range from 0 to 1. 
-
-
-
-Now, let's try to plot this function using the matplotlib library.
-
-
-# Plot z vs sigmoid(z)
-fig,ax = plt.subplots(1,1,figsize=(5,3))
-ax.plot(z_tmp, y, c="b")
-
-ax.set_title("Sigmoid function")
-ax.set_ylabel('sigmoid(z)')
-ax.set_xlabel('z')
-draw_vthresh(ax,0)
-
-![](images/M3/sigmoid-function-3.png)
-
-As you can see, the sigmoid function approaches 0 as z goes to large negative values and approaches 1 as z goes to large positive values.
-
-// Logistic Regression
-
-![](images/M3/logistic-regression.png)
-
-
-Let's apply logistic regression to the categorical data example of tumor classification.
-First, load the examples and initial values for the parameters.
-
-
-x_train = np.array([0., 1, 2, 3, 4, 5])
-y_train = np.array([0,  0, 0, 1, 1, 1])
-
-w_in = np.zeros((1))
-b_in = 0
-
-ry the following steps:
-
-Click on 'Run Logistic Regression' to find the best logistic regression model for the given training data
-Note the resulting model fits the data quite well.
-Note, the orange line is '𝑧' or  𝐰⋅𝐱(𝑖)+𝑏 above. It does not match the line in a linear regression model. Further improve these results by applying a threshold.
-Tick the box on the 'Toggle 0.5 threshold' to show the predictions if a threshold is applied.
-These predictions look good. The predictions match the data
-Now, add further data points in the large tumor size range (near 10), and re-run logistic regression.
-unlike the linear regression model, this model continues to make correct predictions
-
-
-![](images/M3/logistic-regression-on-categorical-data-plot.png)
-
-
-
-
-// Decision Boundary
-
-z = w.x + b
-To find decision boundary set: z = 0
-
-f_wb(x) = g(z) = g(w.x + b)
-
-g(z) = 1 / (1 + e^-z)
-
-So, 
-
-f_wb(x) = 1 / (1 + e^ (-1 * (w.x + b)))
-
-f_wb(x) = P(y = 1 | x; w, b)
-
-This is read as, f_wb(x) is equal to the probabilty that y is equal to 1 given feature x and with parameters w and b.
-
-f_wb(x) = g(w.x + b)  
-![](images/M3/decision-boundary.png)  
-
-f_wb(x) = g(w1.x1 + w2.x2 + b)  
-![](images/M3/decision-boundary-2.png)  
-
-// Complex Non Linear decision boundary  
-
-f_wb(x) = g(w1.x1^2 + w2.x2^2 + b)  
-![](images/M3/complex-decision-boundary.png)  
-
-
-// Non-Linear decision boundaries
-
-Polynomial Features: x1^2, x2^2 etc.
-
-f_wb(x) = g(z) = g(w1x1 + w2x2 + w3x1^2 + w4.x4x2 + w5.x2^2 + w6.x1^3 + ... + b)
-
-If we were not to use these higher order polynomial features then the decision boundary for Logisitic Regression (with features like x1, x2, x3 etc.) would always be linear i.e. a straight line.   
-
-![](images/M3/non-linear-decision-boundary.png)  
-
-Question:
-Let's say you are creating a tumor detection algorithm. Your algorithm will be used to flag potential tumors for future inspection by a specialist. What value should you use for a threshold?
-
-A. High, say a threshold of 0.9?
-B. Low, say a threshold of 0.2?
-
-Answer: 
-
-B: You would not want to miss a potential tumor, so you will want a low threshold. A specialist will review the output of the algorithm which reduces the possibility of a ‘false positive’. The key point of this question is to note that the threshold value does not need to be 0.5.
-
-
-Lab: 
-
-Logistic Regression, Decision Boundary
-
-Goals
-
-- Plot the decision boundary for a logistic regression model. This will give you a better sense of what the model is predicting.
-
-
+```python
 import numpy as np
 %matplotlib widget
 import matplotlib.pyplot as plt
 from lab_utils_common import plot_data, sigmoid, draw_vthresh
 plt.style.use('./deeplearning.mplstyle')
 
-Dataset
-Let's suppose you have following training dataset
+# np.exp() example
+input_array = np.array([1, 2, 3])
+exp_array = np.exp(input_array)
+print("Input to exp:", input_array)
+print("Output of exp:", exp_array)
+# Output:
+# Input to exp: [1 2 3]
+# Output of exp: [ 2.718  7.389 20.086]
 
+# Sigmoid function implementation
+def sigmoid(z):
+    """
+    Compute the sigmoid of z
+    Args:
+        z (ndarray): A scalar, numpy array of any size.
+    Returns:
+        g (ndarray): sigmoid(z), with the same shape as z
+    """
+    g = 1/(1+np.exp(-z))
+    return g
 
-The input variable X is a numpy array which has 6 training examples, each with two features
-The output variable y is also a numpy array with 6 examples, and y is either 0 or 1
+# Generate values and apply sigmoid
+z_tmp = np.arange(-10, 11)
+y = sigmoid(z_tmp)
+np.set_printoptions(precision=3)
+print("Input (z), Output (sigmoid(z))")
+print(np.c_[z_tmp, y])
 
+# Plotting the sigmoid function
+fig,ax = plt.subplots(1,1,figsize=(5,3))
+ax.plot(z_tmp, y, c="b")
+ax.set_title("Sigmoid function")
+ax.set_ylabel('sigmoid(z)')
+ax.set_xlabel('z')
+draw_vthresh(ax,0)
+```![Sigmoid Function Plot from Lab](images/M3/sigmoid-function-3.png)
+
+### Code: Applying Logistic Regression to Data
+Unlike the linear model, the logistic regression model handles outliers well and continues to make correct predictions even after adding more data points to the far right.
+
+![Logistic Regression on Categorical Data](images/M3/logistic-regression-on-categorical-data-plot.png)
+
+### Code: Plotting the Decision Boundary
+Here we use a dataset with two features to visualize the decision boundary.
+
+```python
+# Dataset
 X = np.array([[0.5, 1.5], [1,1], [1.5, 0.5], [3, 0.5], [2, 2], [1, 2.5]])
-y = np.array([0, 0, 0, 1, 1, 1]).reshape(-1,1) 
+y = np.array([0, 0, 0, 1, 1, 1]).reshape(-1,1)
 
-Plot data
-
-Let's use a helper function to plot this data. The data points with label 𝑦=1 are shown as red crosses, while the data points with label 𝑦=0 are shown as blue circles.
-
+# Plotting the data
 fig,ax = plt.subplots(1,1,figsize=(4,4))
 plot_data(X, y, ax)
 
@@ -394,79 +257,46 @@ ax.axis([0, 4, 0, 3.5])
 ax.set_ylabel('$x_1$')
 ax.set_xlabel('$x_0$')
 plt.show()
+```![Classification Data Plot](images/M3/classification-plot-1.png)
 
-![](images/M3/classification-plot-1.png)
+The logistic regression model will find parameters `w` and `b` that define a linear decision boundary separating the red 'X's from the blue 'O's.
 
-Logistic Regression Model
+```
+</details>
 
-![](images/M3/logistic-regression-model-2.png)
+---
+## ✅ Practice Quiz
 
-![](images/M3/logistic-regression-model-3.png)
-
-
-# Plot sigmoid(z) over a range of values from -10 to 10
-z = np.arange(-10,11)
-
-fig,ax = plt.subplots(1,1,figsize=(5,3))
-# Plot z vs sigmoid(z)
-ax.plot(z, sigmoid(z), c="b")
-
-ax.set_title("Sigmoid function")
-ax.set_ylabel('sigmoid(z)')
-ax.set_xlabel('z')
-draw_vthresh(ax,0)
-
-
-
-Practice Quiz: Classification with logistic regression
-
-Question 1:
+**Question 1:**
 Which is an example of a classification task?
+*   A. Based on a patient's age and blood pressure, determine how much blood pressure medication (measured in milligrams) the patient should be prescribed.
+*   B. Based on a patient's blood pressure, determine how much blood pressure medication (a dosage measured in milligrams) the patient should be prescribed.
+*   C. Based on the size of each tumor, determine if each tumor is malignant (cancerous) or not.
 
-A. Based on a patient's age and blood pressure, determine how much blood pressure medication (measured in milligrams) the patient should be prescribed.
+> **Answer:** C. This task predicts one of two classes, malignant or not malignant. The other options are regression tasks as they predict a continuous value (milligrams).
 
-B. Based on a patient's blood pressure, determine how much blood pressure medication (a dosage measured in milligrams) the patient should be prescribed.
+**Question 2:**
+Recall the sigmoid function is `g(z) = 1 / (1 + e^(-z))`. If `z` is a large positive number, what is `g(z)`?
+![Quiz Question 2 Image](images/M3/quiz-que-2.png)
+*   A. `g(z)` will be near 0.5
+*   B. `g(z)` will be near zero (0)
+*   C. `g(z)` is near one (1)
+*   D. `g(z)` is near negative one (-1)
 
-C. Based on the size of each tumor, determine if each tumor is malignant (cancerous) or not.
+> **Answer:** C. If `z` is a large positive number (e.g., 100), `e^(-z)` becomes a very small positive number (close to 0). So, `g(z)` ≈ 1 / (1 + 0), which is 1.
 
-Answer:
-C. This task predicts one of two classes, malignant or not malignant.
+**Question 3:**
+A cat photo classification model predicts 1 if it's a cat, and 0 if it's not. For a particular photo, the logistic regression model outputs `g(z)`. Which of these would be a reasonable criterion to predict if it's a cat?
+*   A. Predict it is a cat if `g(z) < 0.7`
+*   B. Predict it is a cat if `g(z) < 0.5`
+*   C. Predict it is a cat if `g(z) >= 0.5`
+*   D. Predict it is a cat if `g(z) = 0.5`
 
+> **Answer:** C. We interpret `g(z)` as the probability that the photo is of a cat. A standard approach is to predict "cat" when this probability is greater than or equal to a 0.5 threshold.
 
-Question 2
-Recall the sigmoid function is g(z) = 1 / (1 + (e^(-1 * (z))))
+**Question 4:**
+**True/False:** No matter what features you use (including if you use polynomial features), the decision boundary learned by logistic regression will be a linear decision boundary.
+*   A. True
+*   B. False
 
-
-![](images/M3/quiz-que-2.png)  
-
-A. g(z) will be near 0.5
-B. g(z) will be near zero (0)
-C. g(z) is near one (1)
-D. g(z) is near negative one (-1)
-
-Answer:
-
-C. Say z = +100. So e^-z, is then e^-100 a really small positive number. So, g(z)= 1 / (1 + a small +ve number) which is close to 1.
-
-Question 3:
-
-A cat photo classification model predicts 1 if it's a cat, and 0 if it's not a cat. For a particular photograph, the logistic regression model outputs g(z), (a number between 0 and 1). Which of these would be a reasonable criteria to decide whether to predict if it's a cat?
-
-A. Predict it is a cat if g(z) < 0.7
-B. Predict it is a cat if g(z) < 0.5
-C. Predict it is a cat if g(z) >= 0.5
-D. Predict it is a cat if g(z) = 0.5
-
-Answer: 
-
-Think of g(z) as the probability that the photo is of a cat. When this number is at or above the threshold of 0.5, predict that it is a cat.
-
-
-Question 4:
-True/False? No matter what features you use (including if you use polynomial features), the decision boundary learned by logistic regression will be a linear decision boundary.
-
-A. True
-B. False
-
-Answer: B. The decision boundary can also be non-linear, as described in the lectures.
-
+> **Answer:** B. False. As explained in the "Non-Linear Decision Boundaries" section, using polynomial features allows logistic regression to learn complex, non-linear decision boundaries.
