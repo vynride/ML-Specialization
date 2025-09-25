@@ -18,108 +18,108 @@ The parameter `w₁` associated with `size` will be very small, while the parame
 
 ### The Impact on the Cost Function
 
-This disparity in feature scales leads to a cost function `J(w,b)` with elongated, skinny contours.
+This disparity in feature scales leads to a cost function `J(w,b)` with elongated, skinny contours.  
 
-*   A small change in `w₁` (for `size`) causes a large change in the cost.
-*   A large change in `w₂` (for `bedrooms`) is needed to affect the cost similarly.
-
+*   A small change in `w₁` (for `size`) causes a large change in the cost.  
+*   A large change in `w₂` (for `bedrooms`) is needed to affect the cost similarly.  
+ 
 ![](images/M2/feature-scaling-2.png)
 
-As a result, the contour plot looks like a set of tall, narrow ellipses. Gradient descent can struggle with such a surface, often bouncing back and forth inefficiently before reaching the minimum.
+As a result, the contour plot looks like a set of tall, narrow ellipses. Gradient descent can struggle with such a surface, often bouncing back and forth inefficiently before reaching the minimum.  
 
-By scaling the features (e.g., transforming both to a range of 0 to 1), the contours of the cost function become more circular. This allows gradient descent to take a more direct path to the global minimum.
+By scaling the features (e.g., transforming both to a range of 0 to 1), the contours of the cost function become more circular. This allows gradient descent to take a more direct path to the global minimum.  
 
 ### 🎯 Goal of Feature Scaling
 
-The main goal is to transform features so they have comparable ranges. This ensures that each feature contributes more equally to the model's learning process and helps gradient descent converge faster.
+The main goal is to transform features so they have comparable ranges. This ensures that each feature contributes more equally to the model's learning process and helps gradient descent converge faster.  
 
 ### Methods for Feature Scaling
 
-Here are three common methods for feature scaling:
+Here are three common methods for feature scaling:  
 
 1.  **Dividing by the Maximum**
     *   **Formula:** `x₁ = x₁ / max(x)`
-    *   This scales the feature to a range between 0 and 1 (or -1 and 1 if there are negative values). It's simple and effective for features that are strictly positive.
+    *   This scales the feature to a range between 0 and 1 (or -1 and 1 if there are negative values). It's simple and effective for features that are strictly positive.  
     ![](images/M2/dividing-by-maximum.png)
 
-2.  **Mean Normalization**
+2.  **Mean Normalization**  
     *   **Formula:** `x₁ = (x₁ - μ) / (max - min)`
-    *   This method centers the data around 0 and scales it by the range. The resulting features will generally be in the range of -1 to 1.
+    *   This method centers the data around 0 and scales it by the range. The resulting features will generally be in the range of -1 to 1.  
     ![](images/M2/mean-normalization.png)
 
-3.  **Z-Score Normalization**
+3.  **Z-Score Normalization**  
     *   **Formula:** `x₁ = (x₁ - μ₁) / σ₁` (where `μ₁` is the mean and `σ₁` is the standard deviation of feature `x₁`)
-    *   This is a very common and effective method. It rescales features to have a mean of 0 and a standard deviation of 1.
+    *   This is a very common and effective method. It rescales features to have a mean of 0 and a standard deviation of 1.  
     ![](images/M2/z-score-normalization.png)
 
-> **💡 Note:** When in doubt, applying feature scaling is generally a good idea and rarely hurts the model's performance.
+> **💡 Note:** When in doubt, applying feature scaling is generally a good idea and rarely hurts the model's performance.  
 
 ![](images/M2/feature-rescaling-guide.png)
 
-### ❓ Knowledge Check
+### ❓ Knowledge Check  
 
-**Question:** Which of the following is a valid step used during feature scaling?
+**Question:** Which of the following is a valid step used during feature scaling?  
 
 ![](images/M2/feature-scaling-que.png)
 
-A. Multiply each value by the maximum value for that feature.
-B. Divide each value by the maximum value for that feature.
+A. Multiply each value by the maximum value for that feature.  
+B. Divide each value by the maximum value for that feature.  
 
 **Answer:**
-> **B.** By dividing all values by the maximum, the new range of the rescaled features will have a maximum value of 1.
+> **B.** By dividing all values by the maximum, the new range of the rescaled features will have a maximum value of 1.  
 
 ---
 
 ## 📉 Monitoring Gradient Descent
 
-It's crucial to monitor gradient descent to ensure it's converging correctly.
+It's crucial to monitor gradient descent to ensure it's converging correctly.  
 
 ### Checking for Convergence
 
-A **learning curve** is a plot of the cost function `J(w,b)` over the number of iterations.
+A **learning curve** is a plot of the cost function `J(w,b)` over the number of iterations.  
 
-*   If gradient descent is working correctly, the cost `J(w,b)` should decrease after every iteration.
-*   The curve should eventually flatten out, indicating that the algorithm has converged to a minimum.
+*   If gradient descent is working correctly, the cost `J(w,b)` should decrease after every iteration.  
+*   The curve should eventually flatten out, indicating that the algorithm has converged to a minimum.  
 
 ![](images/M2/gradient-descent-convergence.png)
 
-### Choosing the Right Learning Rate (α)
+### Choosing the Right Learning Rate (α)  
 
-The learning rate `α` is a critical hyperparameter.
+The learning rate `α` is a critical hyperparameter.  
 
-*   **If `α` is too large:** The cost may increase or oscillate wildly. The algorithm might "overshoot" the minimum and diverge.
-*   **If `α` is too small:** Gradient descent will be very slow to converge.
+*   **If `α` is too large:** The cost may increase or oscillate wildly. The algorithm might "overshoot" the minimum and diverge.  
+*   **If `α` is too small:** Gradient descent will be very slow to converge.  
 
 ![](images/M2/identifying-problems-with-gradient-descent.png)
 
-A good approach is to try a range of `α` values (e.g., 0.001, 0.01, 0.1, 1.0) and plot their learning curves to find a value that causes the cost to decrease quickly and consistently.
+A good approach is to try a range of `α` values (e.g., 0.001, 0.01, 0.1, 1.0) and plot their learning curves to find a value that causes the cost to decrease quickly and consistently.  
 
 ![](images/M2/gradient-descent-choice.png)
 
 ### ❓ Knowledge Check
 
-**Question:** You run gradient descent for 15 iterations with α = 0.3 and compute `J(w)` after each iteration. You find that the value of `J(w)` increases over time. How do you think you should adjust the learning rate α?
+**Question:** You run gradient descent for 15 iterations with α = 0.3 and compute `J(w)` after each iteration. You find that the value of `J(w)` increases over time. How do you think you should adjust the learning rate α?  
 
-A. Try a larger value of α = 1.0
-B. Keep running it for additional iterations
-C. Try a smaller value of α = 0.1
-D. Try running it for only 10 iterations so `J(w)` doesn't increase as much.
+A. Try a larger value of α = 1.0  
+B. Keep running it for additional iterations  
+C. Try a smaller value of α = 0.1  
+D. Try running it for only 10 iterations so `J(w)` doesn't increase as much.  
 
 **Answer:**
-> **C.** Since the cost function is increasing, we know that gradient descent is diverging. This indicates that the learning rate is too high, so we should try a smaller value.
+> **C.** Since the cost function is increasing, we know that gradient descent is diverging. This indicates that the learning rate is too high, so we should try a smaller value.  
 
 ---
 
 ## 🧪 Lab: Feature Scaling and Learning Rate in Practice
 
 ### Goals
-*   Run Gradient Descent on a dataset with multiple features.
-*   Explore the impact of the learning rate `α` on convergence.
-*   Improve performance by applying Z-score normalization.
+*   Run Gradient Descent on a dataset with multiple features.  
+*   Explore the impact of the learning rate `α` on convergence.  
+*   Improve performance by applying Z-score normalization.  
 
 ### Problem Statement
 
-You will use a housing dataset with four features to predict the price of a house.
+You will use a housing dataset with four features to predict the price of a house.  
 
 | Feature         | Description                       |
 |-----------------|-----------------------------------|
@@ -161,25 +161,25 @@ plt.show()
 
 ![](images/M2/feature-scaling-plot.png)
 
-The plots show that `size` and `age` have a stronger correlation with `price` than `bedrooms` or `floors`.
+The plots show that `size` and `age` have a stronger correlation with `price` than `bedrooms` or `floors`.  
 
 ### Gradient Descent for Multiple Variables
 
-The update rules for gradient descent remain the same, but are now applied to each parameter `wⱼ` and `b`.
+The update rules for gradient descent remain the same, but are now applied to each parameter `wⱼ` and `b`.  
 
 ![](images/M2/gradient-descent-for-multiple-variables-formulae.png)
 
 ### The Impact of the Learning Rate (α)
 
-Let's run gradient descent with the raw (unscaled) data and observe the effect of different learning rates.
-
-**1. `α = 9.9e-7` (Too Large)**
+Let's run gradient descent with the raw (unscaled) data and observe the effect of different learning rates.  
+ 
+**1. `α = 9.9e-7` (Too Large)**  
 
 ```python
 #set alpha to 9.9e-7
-_, _, hist = run_gradient_descent(X_train, y_train, 10, alpha = 9.9e-7)
+_, _, hist = run_gradient_descent(X_train, y_train, 10, alpha = 9.9e-7)  
 ```
-The cost function increases with each iteration, a clear sign that the learning rate is too high and the algorithm is diverging.
+The cost function increases with each iteration, a clear sign that the learning rate is too high and the algorithm is diverging.  
 
 <details>
 <summary>Click to see full output</summary>
@@ -204,7 +204,7 @@ w,b found by gradient descent: w: [-0.87 -0.   -0.   -0.03], b: -0.00
 ```python
 plot_cost_i_w(X_train, y_train, hist)
 ```
-![](images/M2/cost-function-plot-for-high-alpha.png)
+![](images/M2/cost-function-plot-for-high-alpha.png)  
 
 **2. `α = 9e-7` (Moderate)**
 
@@ -212,10 +212,10 @@ plot_cost_i_w(X_train, y_train, hist)
 #set alpha to 9e-7
 _,_,hist = run_gradient_descent(X_train, y_train, 10, alpha = 9e-7)
 ```
-The cost is now decreasing, but the parameter `w₀` is oscillating around the optimal value, indicating the learning rate is still a bit high, causing it to "jump over" the minimum. It will eventually converge, but slowly.
+The cost is now decreasing, but the parameter `w₀` is oscillating around the optimal value, indicating the learning rate is still a bit high, causing it to "jump over" the minimum. It will eventually converge, but slowly.  
 
 <details>
-<summary>Click to see full output</summary>
+<summary>Click to see full output</summary>  
 
 ```
 Iteration Cost          w0       w1       w2       w3       b       djdw0    djdw1    djdw2    djdw3    djdb
@@ -239,12 +239,12 @@ plot_cost_i_w(X_train, y_train, hist)
 ```
 ![](images/M2/cost-function-plot-for-moderate-alpha.png)
 
-**3. `α = 1e-7` (Too Small)**
+**3. `α = 1e-7` (Too Small)**  
 ```python
 #set alpha to 1e-7
 _,_,hist = run_gradient_descent(X_train, y_train, 10, alpha = 1e-7)
 ```
-The cost decreases steadily, but very slowly. This would require many more iterations to converge.
+The cost decreases steadily, but very slowly. This would require many more iterations to converge.  
 
 <details>
 <summary>Click to see full output</summary>
@@ -268,11 +268,11 @@ w,b found by gradient descent: w: [2.31e-01 4.18e-04 2.12e-04 4.81e-03], b: 0.00
 
 ![](images/M2/cost-function-plot-for-appropriate-alpha.png)
 
-This process highlights the difficulty of finding a good learning rate when features have very different scales.
+This process highlights the difficulty of finding a good learning rate when features have very different scales.  
 
 ### Feature Scaling in Action
 
-Let's apply Z-score normalization to solve this problem.
+Let's apply Z-score normalization to solve this problem.  
 
 ![](images/M2/z-score-normalization-formulae.png)
 
@@ -303,13 +303,13 @@ def zscore_normalize_features(X):
 
 #### Visualizing the Transformation
 
-The normalization process centers each feature around zero and gives it a standard deviation of one.
+The normalization process centers each feature around zero and gives it a standard deviation of one.  
 
 ![](images/M2/feature-distribution-before-and-after-z-scale-normalization.png)
 
-*   **Left (Unnormalized):** The scale of `size(sqft)` is vastly different from `age`.
-*   **Middle (Mean Subtracted):** The features are centered around zero.
-*   **Right (Z-score Normalized):** Both features are now centered at zero and have a similar scale.
+*   **Left (Unnormalized):** The scale of `size(sqft)` is vastly different from `age`.  
+*   **Middle (Mean Subtracted):** The features are centered around zero.  
+*   **Right (Z-score Normalized):** Both features are now centered at zero and have a similar scale.  
 
 #### Applying Normalization to the Data
 
@@ -327,13 +327,13 @@ X_sigma = [411.62   0.65   0.49  25.78]
 Peak to Peak range by column in Raw        X:[2.41e+03 4.00e+00 1.00e+00 9.50e+01]
 Peak to Peak range by column in Normalized X:[5.85 6.14 2.06 3.69]
 ```
-The peak-to-peak range is now much more consistent across features.
+The peak-to-peak range is now much more consistent across features.  
 
 ![](images/M2/feature-distribution-before-and-after-z-scale-normalization-plots.png)
 
 #### Rerunning Gradient Descent with Normalized Data
 
-With scaled features, we can use a much larger learning rate, `α = 1.0e-1`, which drastically speeds up convergence.
+With scaled features, we can use a much larger learning rate, `α = 1.0e-1`, which drastically speeds up convergence.  
 
 ```python
 w_norm, b_norm, hist = run_gradient_descent(X_norm, y_train, 1000, 1.0e-1)
@@ -359,7 +359,7 @@ w,b found by gradient descent: w: [110.56 -21.27 -32.71 -37.97], b: 363.16
 ```
 </details>
 
-The model converges very quickly to a low cost. The scaled features allow for much faster and more stable training.
+The model converges very quickly to a low cost. The scaled features allow for much faster and more stable training.  
 
 #### Predictions vs. Target Values
 ```python
@@ -382,11 +382,11 @@ plt.show()
 
 ![](images/M2/target-vs-prediction-after-normalization.png)
 
-The model provides good predictions across all features.
+The model provides good predictions across all features.  
 
 #### Predicting on New Data
 
-To predict the price of a new house, you must normalize its features using the **same `mu` and `sigma`** calculated from the training set.
+To predict the price of a new house, you must normalize its features using the **same `mu` and `sigma`** calculated from the training set.  
 
 ```python
 # Predict the price of a house with 1200 sqft, 3 bedrooms, 1 floor, 40 years old.
@@ -404,7 +404,7 @@ print(f" predicted price of a house with 1200 sqft, 3 bedrooms, 1 floor, 40 year
 
 #### Cost Contours Comparison
 
-These plots visually confirm why feature scaling works. The contours for the unscaled data are elongated, while the normalized data yields circular contours, making the path to the minimum much more direct.
+These plots visually confirm why feature scaling works. The contours for the unscaled data are elongated, while the normalized data yields circular contours, making the path to the minimum much more direct.  
 
 ![](images/M2/cost-contours.png)
 ![](images/M2/cost-contours-2.png)
@@ -413,36 +413,36 @@ These plots visually confirm why feature scaling works. The contours for the uns
 
 ## 🛠️ Feature Engineering & Polynomial Regression
 
-Linear regression can be extended to model non-linear relationships through **feature engineering**, which is the process of creating new features by transforming or combining existing ones.
+Linear regression can be extended to model non-linear relationships through **feature engineering**, which is the process of creating new features by transforming or combining existing ones.  
 
 ### Feature Engineering
 
-The choice of features significantly impacts a model's performance. By using domain knowledge and intuition, we can create features that better capture the underlying patterns in the data.
+The choice of features significantly impacts a model's performance. By using domain knowledge and intuition, we can create features that better capture the underlying patterns in the data.  
 
 ![](images/M2/feature-engineering.png)
 
 #### ❓ Knowledge Check
 
-**Question:** If you have measurements for the dimensions of a swimming pool (length, width, height), which of the following two would be a more useful engineered feature?
+**Question:** If you have measurements for the dimensions of a swimming pool (length, width, height), which of the following two would be a more useful engineered feature?  
 
-A. `length × width × height`
-B. `length + width + height`
-
+A. `length × width × height`  
+B. `length + width + height`  
+  
 **Answer:**
-> **A.** The volume (`length × width × height`) of the swimming pool is likely a more useful feature for many prediction tasks (e.g., predicting the cost to fill it) than the sum of its dimensions.
+> **A.** The volume (`length × width × height`) of the swimming pool is likely a more useful feature for many prediction tasks (e.g., predicting the cost to fill it) than the sum of its dimensions.  
 
 ### Polynomial Regression
 
-What if your data doesn't follow a straight line? You can still use linear regression by engineering new **polynomial features**.
+What if your data doesn't follow a straight line? You can still use linear regression by engineering new **polynomial features**.  
 
-For example, if your data seems to follow a quadratic curve:
+For example, if your data seems to follow a quadratic curve:  
 
 ![](images/M2/choice-of-features.png)
 
-Instead of the model `f(x) = w₁x₁ + b`, you can create a new feature `x₁²` and fit the model:
-`f(x) = w₁x₁ + w₂(x₁²) + b`
+Instead of the model `f(x) = w₁x₁ + b`, you can create a new feature `x₁²` and fit the model:  
+`f(x) = w₁x₁ + w₂(x₁²) + b`  
 
-Even though the function is a curve with respect to `x`, it is a **linear function** with respect to the features `x₁` and `x₁²`. This allows us to use the same linear regression algorithm.
+Even though the function is a curve with respect to `x`, it is a **linear function** with respect to the features `x₁` and `x₁²`. This allows us to use the same linear regression algorithm.  
 
 ![](images/M2/choice-of-features-2.png)
 
@@ -451,8 +451,8 @@ Even though the function is a curve with respect to `x`, it is a **linear functi
 ## 🧪 Lab: Implementing Polynomial Regression
 
 ### Goals
-*   Explore how to use feature engineering to fit non-linear data.
-*   Understand how linear regression can model complex functions through polynomial features.
+*   Explore how to use feature engineering to fit non-linear data.  
+*   Understand how linear regression can model complex functions through polynomial features.  
 
 ### Setup
 ```python
@@ -461,12 +461,12 @@ import matplotlib.pyplot as plt
 from lab_utils_multi import zscore_normalize_features, run_gradient_descent_feng
 np.set_printoptions(precision=2)  # reduced display precision on numpy arrays
 ```
-![](images/M2/feature-engineering-and-polynomial-regression-overview.png)
-![](images/M2/polynomial-features.png)
+![](images/M2/feature-engineering-and-polynomial-regression-overview.png)  
+![](images/M2/polynomial-features.png)  
 
 ### Linear Model on Non-linear Data
 
-Let's try to fit a linear model to quadratic data `y = 1 + x²`.
+Let's try to fit a linear model to quadratic data `y = 1 + x²`.  
 
 ```python
 # create target data
@@ -485,11 +485,11 @@ w,b found by gradient descent: w: [18.7], b: -52.0834
 ```
 ![](images/M2/no-feature-engineering-plot.png)
 
-As expected, a straight line is a poor fit for this data.
+As expected, a straight line is a poor fit for this data.  
 
 ### Adding a Polynomial Feature (x²)
 
-Now, let's engineer a new feature, `x²`, and train the model again.
+Now, let's engineer a new feature, `x²`, and train the model again.  
 
 ```python
 # create target data
@@ -511,11 +511,11 @@ w,b found by gradient descent: w: [1.], b: 0.0490
 ```
 ![](images/M2/with-feature-engineering-plot.png)
 
-The fit is now nearly perfect! The learned parameters `w=[1.]` and `b=0.0490` are very close to the true model `y = 1 * x² + 1`.
+The fit is now nearly perfect! The learned parameters `w=[1.]` and `b=0.0490` are very close to the true model `y = 1 * x² + 1`.  
 
 ### Selecting Features
 
-What if we aren't sure which polynomial terms are needed? We can add several and let gradient descent figure it out. Let's try fitting `y = x²` with features `x`, `x²`, and `x³`.
+What if we aren't sure which polynomial terms are needed? We can add several and let gradient descent figure it out. Let's try fitting `y = x²` with features `x`, `x²`, and `x³`.  
 
 ```python
 # create target data
@@ -536,11 +536,11 @@ w,b found by gradient descent: w: [0.08 0.54 0.03], b: 0.0106
 ```
 ![](images/M2/feature-selection-1.png)
 
-The learned model is `y ≈ 0.08x + 0.54x² + 0.03x³ + 0.01`. Gradient descent has assigned the largest weight (`w₁=0.54`) to the `x²` feature, correctly identifying it as the most important one. The weights for `x` and `x³` are much smaller.
+The learned model is `y ≈ 0.08x + 0.54x² + 0.03x³ + 0.01`. Gradient descent has assigned the largest weight (`w₁=0.54`) to the `x²` feature, correctly identifying it as the most important one. The weights for `x` and `x³` are much smaller.  
 
 ### An Alternate View
 
-The best features for linear regression are those that have a linear relationship with the target `y`. Plotting our engineered features against `y` confirms this.
+The best features for linear regression are those that have a linear relationship with the target `y`. Plotting our engineered features against `y` confirms this.  
 
 ```python
 # create target data
@@ -560,11 +560,11 @@ plt.show()
 ```
 ![](images/M2/polynomial-features-plot.png)
 
-Clearly, `x²` has a linear relationship with `y`, making it the perfect feature for a linear regression model.
+Clearly, `x²` has a linear relationship with `y`, making it the perfect feature for a linear regression model.  
 
 ### Scaling Features
 
-When creating polynomial features like `x`, `x²`, and `x³`, their scales will be vastly different. Feature scaling is essential here to speed up gradient descent.
+When creating polynomial features like `x`, `x²`, and `x³`, their scales will be vastly different. Feature scaling is essential here to speed up gradient descent.  
 
 ```python
 # create target data
@@ -583,7 +583,7 @@ print(f"Peak to Peak range by column in Normalized X:{np.ptp(X,axis=0)}")
 Peak to Peak range by column in Raw        X:[  19  361 6859]
 Peak to Peak range by column in Normalized X:[3.3  3.18 3.28]
 ```
-Now, with scaled features, we can use a much larger learning rate and converge faster.
+Now, with scaled features, we can use a much larger learning rate and converge faster.  
 
 ```python
 model_w, model_b = run_gradient_descent_feng(X, y, iterations=100000, alpha=1e-1)
@@ -595,11 +595,11 @@ w,b found by gradient descent: w: [5.27e-05 1.13e+02 8.43e-05], b: 123.5000
 ```
 ![](images/M2/normalized-polynomial-features.png)
 
-After normalization, gradient descent gives a much larger weight to the `x²` term and almost zero weight to the others, resulting in a very accurate model.
+After normalization, gradient descent gives a much larger weight to the `x²` term and almost zero weight to the others, resulting in a very accurate model.  
 
 ### Modeling Complex Functions
 
-With enough polynomial features, we can model even highly complex functions, like a cosine wave.
+With enough polynomial features, we can model even highly complex functions, like a cosine wave.  
 
 ```python
 x = np.arange(0,20,1)
@@ -619,10 +619,10 @@ model_w,model_b = run_gradient_descent_feng(X, y, iterations=1000000, alpha = 1e
 
 ## 🤖 Lab: Linear Regression with Scikit-Learn
 
-Instead of implementing algorithms from scratch, we can use powerful, open-source libraries like **scikit-learn**.
+Instead of implementing algorithms from scratch, we can use powerful, open-source libraries like **scikit-learn**.  
 
 ### Goals
-*   Utilize scikit-learn to implement linear regression using Gradient Descent.
+*   Utilize scikit-learn to implement linear regression using Gradient Descent.  
 
 ### Setup
 ```python
@@ -643,7 +643,7 @@ X_features = ['size(sqft)','bedrooms','floors','age']
 ```
 
 ### 2. Scale/Normalize the Data
-Scikit-learn's `StandardScaler` performs Z-score normalization.
+Scikit-learn's `StandardScaler` performs Z-score normalization.  
 ```python
 scaler = StandardScaler()
 X_norm = scaler.fit_transform(X_train)
@@ -657,7 +657,7 @@ Peak to Peak range by column in Normalized X:[5.85 6.14 2.06 3.69]
 ```
 
 ### 3. Create and Fit the Model
-`SGDRegressor` implements linear regression using Stochastic Gradient Descent.
+`SGDRegressor` implements linear regression using Stochastic Gradient Descent.  
 ```python
 # Create an instance of the model
 sgdr = SGDRegressor(max_iter=1000)
@@ -673,7 +673,7 @@ number of iterations completed: 106, number of weight updates: 10495.0
 ```
 
 ### 4. View Parameters
-The learned parameters are stored in `sgdr.coef_` (for `w`) and `sgdr.intercept_` (for `b`).
+The learned parameters are stored in `sgdr.coef_` (for `w`) and `sgdr.intercept_` (for `b`).  
 ```python
 b_norm = sgdr.intercept_
 w_norm = sgdr.coef_
@@ -685,7 +685,7 @@ print( "model parameters from previous lab: w: [110.56 -21.27 -32.71 -37.97], b:
 model parameters:                   w: [109.79 -20.87 -32.26 -38.1 ], b:[363.16]
 model parameters from previous lab: w: [110.56 -21.27 -32.71 -37.97], b: 363.16
 ```
-The results are very close to our manual implementation!
+The results are very close to our manual implementation!  
 
 ### 5. Make Predictions and Plot Results
 ```python
@@ -725,8 +725,8 @@ plt.show()
 
 ## ✍️ Lab: Building Linear Regression from Scratch
 
-This lab walks through the implementation of linear regression for a single variable from the ground up.
-
+This lab walks through the implementation of linear regression for a single variable from the ground up.  
+ 
 ### 1 - Packages
 ```python
 import numpy as np
@@ -738,11 +738,11 @@ import math
 ```
 
 ### 2 - Problem Statement
-You are the CEO of a restaurant franchise. You have data on profits and populations from cities where your restaurants are located. You want to use this data to predict profits for new candidate cities.
+You are the CEO of a restaurant franchise. You have data on profits and populations from cities where your restaurants are located. You want to use this data to predict profits for new candidate cities.  
 
 ### 3 - Dataset
 *   `x_train`: Population of a city (in 10,000s).
-*   `y_train`: Profit of a restaurant in that city (in $10,000s).
+*   `y_train`: Profit of a restaurant in that city (in $10,000s).  
 
 ```python
 # load the dataset
@@ -815,7 +815,7 @@ All tests passed!
 ![](images/M2/gradient-descent.png)
 
 #### Exercise 2: `compute_gradient`
-Implement the function to compute the gradients `∂J/∂w` and `∂J/∂b`.
+Implement the function to compute the gradients `∂J/∂w` and `∂J/∂b`.  
 ![](images/M2/exercise-2.png)
 
 ```python
@@ -844,7 +844,7 @@ def compute_gradient(x, y, w, b):
     
 ![](images/M2/exercise-2-hints.png)
 
-Here's how you can structure the overall implementation for this function
+Here's how you can structure the overall implementation for this function  
 ```python
 def compute_gradient(x, y, w, b): 
    """
@@ -908,7 +908,7 @@ All tests passed!
 ```
 
 ### Learning Parameters with Batch Gradient Descent
-Now we combine the cost and gradient functions to implement gradient descent.
+Now we combine the cost and gradient functions to implement gradient descent.  
 
 ```python
 def gradient_descent(x, y, w_in, b_in, cost_function, gradient_function, alpha, num_iters): 
@@ -1028,27 +1028,27 @@ For population = 70,000, we predict a profit of $45342.45
 
 ## 🧠 Practice Quiz
 
-**1. Which of the following is a valid step used during feature scaling?**
+**1. Which of the following is a valid step used during feature scaling?**  
 ![](images/M2/gradient-descent-quiz-1.png)
 > **A. Subtract the mean (average) from each value and then divide by the (max - min)**
-> This method is called Mean Normalization.
+> This method is called Mean Normalization.  
 
-**2. Suppose a friend ran gradient descent three separate times with three choices of the learning rate α and plotted the learning curves. For which case, A or B, was the learning rate α likely too large?**
+**2. Suppose a friend ran gradient descent three separate times with three choices of the learning rate α and plotted the learning curves. For which case, A or B, was the learning rate α likely too large?**  
 ![](images/M2/gradient-descent-quiz-2.png)
 > **B. case B only**
-> The cost is increasing, which indicates that gradient descent is diverging, a classic sign of a learning rate that is too large.
+> The cost is increasing, which indicates that gradient descent is diverging, a classic sign of a learning rate that is too large.  
 
-**3. Of the circumstances below, for which one is feature scaling particularly helpful?**
+**3. Of the circumstances below, for which one is feature scaling particularly helpful?**  
 > **A. Feature scaling is helpful when one feature is much larger (or smaller) than another feature.**
-> For example, "house size" in square feet (e.g., ~2000) is much larger than "number of bedrooms" (e.g., ~1-5). Scaling helps balance their influence during training.
+> For example, "house size" in square feet (e.g., ~2000) is much larger than "number of bedrooms" (e.g., ~1-5). Scaling helps balance their influence during training.  
 
-**4. You are helping a grocery store predict its revenue and have data on its items sold per week and price per item. What could be a useful engineered feature?**
-> **A. For each product, calculate the number of items sold times price per item.**
-> This new feature directly represents the revenue for each product, which is likely a very strong predictor for the store's total revenue.
+**4. You are helping a grocery store predict its revenue and have data on its items sold per week and price per item. What could be a useful engineered feature?**  
+> **A. For each product, calculate the number of items sold times price per item.**  
+> This new feature directly represents the revenue for each product, which is likely a very strong predictor for the store's total revenue.  
 
-**5. True/False? With polynomial regression, the predicted values `f_w,b(x)` do not necessarily have to be a straight line (or linear) function of the input feature `x`.**
-> **B. True**
-> By creating polynomial features (like x², x³, etc.), we can model non-linear relationships, resulting in a curved prediction line.
+**5. True/False? With polynomial regression, the predicted values `f_w,b(x)` do not necessarily have to be a straight line (or linear) function of the input feature `x`.**  
+> **B. True**  
+> By creating polynomial features (like x², x³, etc.), we can model non-linear relationships, resulting in a curved prediction line.  
 
 
 ---
@@ -1058,7 +1058,7 @@ For population = 70,000, we predict a profit of $45342.45
 ### `lab_utils_multi.py`
 
 <details>
-<summary>Click to expand/collapse code</summary>
+<summary>Click to expand/collapse code</summary>  
 
 ```python
 import numpy as np
