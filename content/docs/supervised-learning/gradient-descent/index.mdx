@@ -1,0 +1,267 @@
+---
+title: "📉 Gradient Descent"
+order: 4
+description: This section covers Gradient Descent, the optimization engine that powers many machine learning models.
+---
+Gradient Descent is a powerful optimization algorithm that isn't limited to linear regression. It can be applied to more general functions with many parameters.
+
+#### The Goal of Gradient Descent
+The primary goal is to find the values for the model parameters (e.g., **w** and **b**) that minimize the cost function `J(w, b)`.
+
+**Goal:** `min J(w₁, w₂, ..., wₙ, b)` over `w₁, ..., wₙ, b`
+
+#### The Algorithm
+The process is intuitive:
+1.  **Initialize:** Start with some initial values for your parameters `w` and `b` (e.g., `w = 0`, `b = 0`).
+2.  **Iterate:** Repeatedly adjust `w` and `b` in a direction that reduces the cost `J(w,b)`.
+3.  **Converge:** Stop when the algorithm settles at or near a minimum, where the cost no longer decreases significantly.
+
+This can be visualized as walking downhill on a graph of the cost function until you reach the lowest point.
+
+![Visualizing Gradient Descent](/images/M1/gradient-descent-1.png)
+
+The core of the algorithm involves simultaneously updating the parameters `w` and `b` using their partial derivatives with respect to the cost function.
+
+```
+repeat until convergence {
+  w = w - α * ∂J(w,b)/∂w
+  b = b - α * ∂J(w,b)/∂b
+}
+```
+
+-   **w, b**: The model parameters.
+-   **α (alpha)**: The **learning rate**, a positive scalar that controls the size of each step.
+-   **∂J(w,b)/∂w**: The partial derivative (or gradient) of the cost function with respect to `w`. This tells us the slope of the cost function in the `w` direction.
+-   **∂J(w,b)/∂b**: The partial derivative of the cost function with respect to `b`.
+
+![Gradient Descent Algorithm Flow](/images/M1/gradient-descent-algorithm.png)
+![Gradient Descent Algorithm Details](/images/M1/gradient-descent-algorithm-2.png)
+
+#### 💡 The Importance of the Learning Rate (α)
+
+Choosing the right learning rate is crucial for the success of Gradient Descent.
+
+-   **If α is too small:** The algorithm will take very slow, tiny steps, leading to a long convergence time.
+-   **If α is too large:** The algorithm might "overshoot" the minimum, causing the cost to oscillate or even increase. In the worst case, it can **diverge**, with the cost growing indefinitely.
+
+![Choosing the right learning rate](/images/M1/learning-rate-1.png)
+
+A key feature of Gradient Descent is that as it approaches a local minimum, the slope (derivative) of the cost function naturally gets smaller. This means the update steps (`α * derivative`) automatically become smaller, allowing the algorithm to fine-tune its position without overshooting the minimum.
+
+![Approaching a local minimum](/images/M1/local-minimum.png)
+![Update steps get smaller near a minimum](/images/M1/learning-rate-2.png)
+
+Here's a recap of the formulas involved:
+![Formula Recap](/images/M1/formula-recap.png)
+
+And the derivation for the gradient components:
+![Gradient Descent Derivation](/images/M1/gradient-descent-derivation.png)
+![Gradient Descent Formulae](/images/M1/gradient-descent-formulae.png)
+
+### Gradient Descent for Linear Regression
+
+When we use Gradient Descent with a **Squared Error Cost Function** (the standard for linear regression), the cost function is **convex**.
+
+> ***Editor's Note:*** A convex function is a "bowl-shaped" function that has no local minima—it only has one single global minimum. This is a very important property, as it guarantees that Gradient Descent, given a suitable learning rate, will always converge to the best possible solution (the global minimum) and not get stuck in a suboptimal local minimum.
+
+![Convex Cost Function](/images/M1/gradient-descent-on-sq-error-cost-function.png)
+
+### 📦 Batch Gradient Descent
+
+The version of Gradient Descent described here is known as **Batch Gradient Descent**. The term "batch" refers to the fact that **every single training example** from the dataset is used to compute the gradient in each step of the descent.
+
+![Batch Gradient Descent](/images/M1/batch-gradient-descent.png)
+
+> ***Editor's Note:*** This is in contrast to other variants like **Stochastic Gradient Descent (SGD)**, which uses a single example per step, and **Mini-Batch Gradient Descent**, which uses a small subset (a mini-batch) of examples. Batch Gradient Descent is computationally expensive for large datasets but provides a more stable and direct path to the minimum.
+
+### 🤔 Knowledge Check
+
+Test your understanding with these questions.
+
+![Quiz Question 1](/images/M1/quiz-1.png)
+![Quiz Question 2](/images/M1/quiz-2.png)
+
+### 🐍 Python Implementation
+
+Here is a complete Python implementation of Gradient Descent for a simple linear regression model.
+
+```python
+import math, copy
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Use a pre-defined style for plots
+plt.style.use('./deeplearning.mplstyle')
+# Utility functions for plotting, provided by the course
+from lab_utils_uni import plt_house_x, plt_contour_wgrad, plt_divergence, plt_gradients
+
+# -------------------------------------------
+# 1. Load and Visualize the Data
+# -------------------------------------------
+x_train = np.array([1.0, 2.0])   # features (size in 1000s of sqft)
+y_train = np.array([300.0, 500.0])   # target value (price in 1000s of dollars)
+
+# -------------------------------------------
+# 2. Define Core Functions
+# -------------------------------------------
+
+def compute_cost(x, y, w, b):
+    """
+    Computes the cost function for linear regression.
+    
+    Args:
+      x (ndarray (m,)): Data, m examples 
+      y (ndarray (m,)): target values
+      w,b (scalar)    : model parameters  
+    Returns
+      total_cost (float): The cost of using w,b as the parameters for linear regression
+                          to fit the data points in x and y
+    """
+    m = x.shape[0] 
+    cost_sum = 0
+    for i in range(m):
+        f_wb = w * x[i] + b
+        cost = (f_wb - y[i])**2
+        cost_sum += cost
+    total_cost = (1 / (2 * m)) * cost_sum
+    return total_cost
+
+def compute_gradient(x, y, w, b): 
+    """
+    Computes the gradient for linear regression.
+    
+    Args:
+      x (ndarray (m,)): Data, m examples 
+      y (ndarray (m,)): target values
+      w,b (scalar)    : model parameters  
+    Returns
+      dj_dw (scalar): The gradient of the cost w.r.t. the parameter w
+      dj_db (scalar): The gradient of the cost w.r.t. the parameter b     
+    """
+    m = x.shape[0]
+    dj_dw = 0
+    dj_db = 0
+    
+    for i in range(m):  
+        f_wb = w * x[i] + b 
+        dj_dw_i = (f_wb - y[i]) * x[i] 
+        dj_db_i = f_wb - y[i] 
+        dj_dw += dj_dw_i
+        dj_db += dj_db_i
+    dj_dw = dj_dw / m 
+    dj_db = dj_db / m 
+        
+    return dj_dw, dj_db
+
+def gradient_descent(x, y, w_in, b_in, alpha, num_iters, cost_function, gradient_function): 
+    """
+    Performs gradient descent to fit w,b. Updates w,b by taking 
+    num_iters gradient steps with learning rate alpha.
+    
+    Args:
+      x (ndarray (m,))  : Data, m examples 
+      y (ndarray (m,))  : target values
+      w_in,b_in (scalar): initial values of model parameters  
+      alpha (float):     Learning rate
+      num_iters (int):   number of iterations to run gradient descent
+      cost_function:     function to call to produce cost
+      gradient_function: function to call to produce gradient
+      
+    Returns:
+      w (scalar): Updated value of parameter after running gradient descent
+      b (scalar): Updated value of parameter after running gradient descent
+      J_history (List): History of cost values
+      p_history (list): History of parameters [w,b] 
+    """
+    J_history = []
+    p_history = []
+    b = b_in
+    w = w_in
+    
+    for i in range(num_iters):
+        # Calculate the gradient and update the parameters
+        dj_dw, dj_db = gradient_function(x, y, w, b)     
+
+        # Update Parameters
+        b = b - alpha * dj_db                            
+        w = w - alpha * dj_dw                            
+
+        # Save cost J at each iteration
+        if i < 100000: # prevent resource exhaustion 
+            J_history.append(cost_function(x, y, w, b))
+            p_history.append([w,b])
+            
+        # Print cost every 10% of the way through
+        if i % math.ceil(num_iters/10) == 0:
+            print(f"Iteration {i:4}: Cost {J_history[-1]:0.2e} ",
+                  f"dj_dw: {dj_dw: 0.3e}, dj_db: {dj_db: 0.3e}  ",
+                  f"w: {w: 0.3e}, b:{b: 0.5e}")
+ 
+    return w, b, J_history, p_history #return history for graphing
+
+# -------------------------------------------
+# 3. Run Gradient Descent and Analyze
+# -------------------------------------------
+
+# -- Run with a good learning rate --
+print("--- Running Gradient Descent with a good learning rate (alpha=0.01) ---")
+w_init = 0
+b_init = 0
+iterations = 10000
+tmp_alpha = 1.0e-2
+
+w_final, b_final, J_hist, p_hist = gradient_descent(x_train ,y_train, w_init, b_init, tmp_alpha, 
+                                                    iterations, compute_cost, compute_gradient)
+print(f"\n(w,b) found by gradient descent: ({w_final:8.4f}, {b_final:8.4f})")
+
+# -- Run with a bad learning rate (too high) --
+print("\n--- Running Gradient Descent with a large learning rate (alpha=0.8) to show divergence ---")
+w_init_diverge = 0
+b_init_diverge = 0
+iterations_diverge = 10
+tmp_alpha_diverge = 8.0e-1
+
+# This will likely produce NaNs or very large numbers, demonstrating divergence
+w_final_d, b_final_d, J_hist_d, p_hist_d = gradient_descent(x_train, y_train, w_init_diverge, b_init_diverge, 
+                                                            tmp_alpha_diverge, iterations_diverge, 
+                                                            compute_cost, compute_gradient)
+
+# -------------------------------------------
+# 4. Visualize Results
+# -------------------------------------------
+
+# Plot cost vs. iteration
+fig, (ax1, ax2) = plt.subplots(1, 2, constrained_layout=True, figsize=(12, 4))
+ax1.plot(J_hist[:100])
+ax2.plot(1000 + np.arange(len(J_hist[1000:])), J_hist[1000:])
+ax1.set_title("Cost vs. iteration (start)")
+ax2.set_title("Cost vs. iteration (end)")
+ax1.set_ylabel('Cost')
+ax2.set_ylabel('Cost') 
+ax1.set_xlabel('iteration step')
+ax2.set_xlabel('iteration step') 
+plt.show()
+
+# Make predictions with the final parameters
+print(f"1000 sqft house prediction {w_final*1.0 + b_final:0.1f} Thousand dollars")
+print(f"1200 sqft house prediction {w_final*1.2 + b_final:0.1f} Thousand dollars")
+print(f"2000 sqft house prediction {w_final*2.0 + b_final:0.1f} Thousand dollars")
+
+# Plot the contour plot to visualize the path of gradient descent
+fig, ax = plt.subplots(1, 1, figsize=(12, 6))
+plt_contour_wgrad(x_train, y_train, p_hist, ax)
+plt.show()
+
+# Plot the divergence caused by a high learning rate
+plt_divergence(p_hist_d, J_hist_d, x_train, y_train)
+plt.show()
+```
+
+### 📋 Recap Summary
+
+These notes provide a final, condensed overview of the key concepts of Gradient Descent.
+
+![Gradient Descent Summary 1](/images/M1/gradient-descent-note-1.png)
+![Gradient Descent Summary 2](/images/M1/gradient-descent-note-2.png)
+
+---
