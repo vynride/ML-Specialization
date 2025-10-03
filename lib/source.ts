@@ -3,7 +3,7 @@ import { type InferPageType, loader } from 'fumadocs-core/source';
 
 // See https://fumadocs.vercel.app/docs/headless/source-api for more info
 export const source = loader({
-  baseUrl: '/docs',
+  baseUrl: '/ml',
   source: docs.toFumadocsSource(),
 });
 
@@ -12,7 +12,7 @@ export function getPageImage(page: InferPageType<typeof source>) {
 
   return {
     segments,
-    url: `/og/docs/${segments.join('/')}`,
+    url: `/og/ml/${segments.join('/')}`,
   };
 }
 

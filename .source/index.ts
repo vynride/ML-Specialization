@@ -1,0 +1,11 @@
+// @ts-nocheck -- skip type checking
+import * as docs_6 from "../content/ml/supervised-learning/intro/index.mdx?collection=docs&hash=1759422546180"
+import * as docs_5 from "../content/ml/supervised-learning/labs/index.mdx?collection=docs&hash=1759422546180"
+import * as docs_4 from "../content/ml/supervised-learning/multiple-linear-regression/index.mdx?collection=docs&hash=1759422546180"
+import * as docs_3 from "../content/ml/supervised-learning/linear-regression/index.mdx?collection=docs&hash=1759422546180"
+import * as docs_2 from "../content/ml/supervised-learning/gradient-descent/index.mdx?collection=docs&hash=1759422546180"
+import * as docs_1 from "../content/ml/supervised-learning/index.mdx?collection=docs&hash=1759422546180"
+import * as docs_0 from "../content/ml/index.mdx?collection=docs&hash=1759422546180"
+import { _runtime } from "fumadocs-mdx"
+import * as _source from "../source.config"
+export const docs = _runtime.docs<typeof _source.docs>([{ info: {"path":"index.mdx","fullPath":"content/ml/index.mdx"}, data: docs_0 }, { info: {"path":"supervised-learning/index.mdx","fullPath":"content/ml/supervised-learning/index.mdx"}, data: docs_1 }, { info: {"path":"supervised-learning/gradient-descent/index.mdx","fullPath":"content/ml/supervised-learning/gradient-descent/index.mdx"}, data: docs_2 }, { info: {"path":"supervised-learning/linear-regression/index.mdx","fullPath":"content/ml/supervised-learning/linear-regression/index.mdx"}, data: docs_3 }, { info: {"path":"supervised-learning/multiple-linear-regression/index.mdx","fullPath":"content/ml/supervised-learning/multiple-linear-regression/index.mdx"}, data: docs_4 }, { info: {"path":"supervised-learning/labs/index.mdx","fullPath":"content/ml/supervised-learning/labs/index.mdx"}, data: docs_5 }, { info: {"path":"supervised-learning/intro/index.mdx","fullPath":"content/ml/supervised-learning/intro/index.mdx"}, data: docs_6 }], [{"info":{"path":"supervised-learning/meta.json","fullPath":"content/ml/supervised-learning/meta.json"},"data":{"pages":["index","linear-regression","gradient-descent","multiple-linear-regression","labs"]}}])
