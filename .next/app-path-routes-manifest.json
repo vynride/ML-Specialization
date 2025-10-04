@@ -1,8 +1,0 @@
-{
-  "/_not-found/page": "/_not-found",
-  "/api/search/route": "/api/search",
-  "/og/ml/[...slug]/route": "/og/ml/[...slug]",
-  "/llms-full.txt/route": "/llms-full.txt",
-  "/(home)/page": "/",
-  "/ml/[[...slug]]/page": "/ml/[[...slug]]"
-}
