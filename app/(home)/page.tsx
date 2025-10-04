@@ -12,7 +12,7 @@ export default function HomePage() {
         >
           /ml
         </Link>{' '}
-        and see the notes.
+        to see the notes.
       </p>
     </main>
   );

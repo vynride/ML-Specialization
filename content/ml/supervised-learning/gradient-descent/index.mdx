@@ -1,6 +1,6 @@
 ---
 title: "📉 Gradient Descent"
-order: 4
+order: 3
 description: This section covers Gradient Descent, the optimization engine that powers many machine learning models.
 ---
 Gradient Descent is a powerful optimization algorithm that isn't limited to linear regression. It can be applied to more general functions with many parameters.
@@ -62,7 +62,7 @@ And the derivation for the gradient components:
 
 When we use Gradient Descent with a **Squared Error Cost Function** (the standard for linear regression), the cost function is **convex**.
 
-> ***Editor's Note:*** A convex function is a "bowl-shaped" function that has no local minima—it only has one single global minimum. This is a very important property, as it guarantees that Gradient Descent, given a suitable learning rate, will always converge to the best possible solution (the global minimum) and not get stuck in a suboptimal local minimum.
+> ***🌟 Note:*** A convex function is a "bowl-shaped" function that has no local minima—it only has one single global minimum. This is a very important property, as it guarantees that Gradient Descent, given a suitable learning rate, will always converge to the best possible solution (the global minimum) and not get stuck in a suboptimal local minimum.
 
 ![Convex Cost Function](/images/M1/gradient-descent-on-sq-error-cost-function.png)
 
@@ -72,7 +72,7 @@ The version of Gradient Descent described here is known as **Batch Gradient Desc
 
 ![Batch Gradient Descent](/images/M1/batch-gradient-descent.png)
 
-> ***Editor's Note:*** This is in contrast to other variants like **Stochastic Gradient Descent (SGD)**, which uses a single example per step, and **Mini-Batch Gradient Descent**, which uses a small subset (a mini-batch) of examples. Batch Gradient Descent is computationally expensive for large datasets but provides a more stable and direct path to the minimum.
+> ***🌟 Note:*** This is in contrast to other variants like **Stochastic Gradient Descent (SGD)**, which uses a single example per step, and **Mini-Batch Gradient Descent**, which uses a small subset (a mini-batch) of examples. Batch Gradient Descent is computationally expensive for large datasets but provides a more stable and direct path to the minimum.
 
 ### 🤔 Knowledge Check
 
