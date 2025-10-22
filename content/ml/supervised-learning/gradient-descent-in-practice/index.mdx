@@ -14,16 +14,16 @@ For example, consider predicting house prices with two features:
 *   **Size (sq. ft.):** Ranges from 300 to 5000.
 *   **Number of Bedrooms:** Ranges from 1 to 5.
 
-The parameter ```math w_1 ``` associated with `size` will be very small, while the parameter ```math w_2 ``` associated with `bedrooms` will be much larger.
+The parameter $$w_1$$ associated with `size` will be very small, while the parameter  $$w_2$$ associated with `bedrooms` will be much larger.
 
 ![](/images/M2/feature-scaling-1.png)
 
 ### The Impact on the Cost Function
 
-This disparity in feature scales leads to a cost function ```math J(w,b) ``` with elongated, skinny contours.  
+This disparity in feature scales leads to a cost function $$J(w,b)$$ with elongated, skinny contours.  
 
-*   A small change in ```math w_1 ``` (for `size`) causes a large change in the cost.  
-*   A large change in ```math w_2 ``` (for `bedrooms`) is needed to affect the cost similarly.  
+*   A small change in $$w_1$$ (for `size`) causes a large change in the cost.  
+*   A large change in $$w_2$$ (for `bedrooms`) is needed to affect the cost similarly.  
  
 ![](/images/M2/feature-scaling-2.png)
 
@@ -40,17 +40,17 @@ The main goal is to transform features so they have comparable ranges. This ensu
 Here are three common methods for feature scaling:  
 
 1.  **Dividing by the Maximum**
-    *   **Formula:** ```math x_1 = \frac{x_1}{\text{max}(x)} ```
+    *   **Formula:** $$x_1 = \frac{x_1}{\text{max}(x)}$$
     *   This scales the feature to a range between 0 and 1 (or -1 and 1 if there are negative values). It's simple and effective for features that are strictly positive.  
     ![](/images/M2/dividing-by-maximum.png)
 
 2.  **Mean Normalization**  
-    *   **Formula:** ```math x_1 = \frac{x_1 - \mu}{\text{max} - \text{min}} ```
+    *   **Formula:** $$x_1 = \frac{x_1 - \mu}{\text{max} - \text{min}}$$
     *   This method centers the data around 0 and scales it by the range. The resulting features will generally be in the range of -1 to 1.  
     ![](/images/M2/mean-normalization.png)
 
 3.  **Z-Score Normalization**  
-    *   **Formula:** ```math x_1 = \frac{x_1 - \mu_1}{\sigma_1} ``` (where ```math \mu_1 ``` is the mean and ```math \sigma_1 ``` is the standard deviation of feature ```math x_1 ```)
+    *   **Formula:** $$x_1 = \frac{x_1 - \mu_1}{\sigma_1}$$ (where  $$\mu_1$$ is the mean and $$\sigma_1$$ is the standard deviation of feature  $$x_1$$)
     *   This is a very common and effective method. It rescales features to have a mean of 0 and a standard deviation of 1.  
     ![](/images/M2/z-score-normalization.png)
 
@@ -64,7 +64,7 @@ Here are three common methods for feature scaling:
 
 ![](/images/M2/feature-scaling-que.png)
 
-A. Multiply each value by the maximum value for that feature.  
+A. Multiply each value by the maximum value for that feature.         
 B. Divide each value by the maximum value for that feature.  
 
 **Answer:**
@@ -78,34 +78,34 @@ It's crucial to monitor gradient descent to ensure it's converging correctly.
 
 ### Checking for Convergence
 
-A **learning curve** is a plot of the cost function ```math J(w,b) ``` over the number of iterations.  
+A **learning curve** is a plot of the cost function $$J(w,b)$$ over the number of iterations.
 
-*   If gradient descent is working correctly, the cost ```math J(w,b) ``` should decrease after every iteration.  
+*   If gradient descent is working correctly, the cost $$J(w,b)$$ should decrease after every iteration.
 *   The curve should eventually flatten out, indicating that the algorithm has converged to a minimum.  
 
 ![](/images/M2/gradient-descent-convergence.png)
 
-### Choosing the Right Learning Rate (α)  
+### Choosing the Right Learning Rate ($$α$$)
 
-The learning rate ```math \alpha ``` is a critical hyperparameter.  
+The learning rate $$α$$ is a critical hyperparameter.
 
-*   **If ```math \alpha ``` is too large:** The cost may increase or oscillate wildly. The algorithm might "overshoot" the minimum and diverge.  
-*   **If ```math \alpha ``` is too small:** Gradient descent will be very slow to converge.  
+*   **If $$α$$ is too large:** The cost may increase or oscillate wildly. The algorithm might "overshoot" the minimum and diverge.
+*   **If $$α$$ is too small:** Gradient descent will be very slow to converge.
 
 ![](/images/M2/identifying-problems-with-gradient-descent.png)
 
-A good approach is to try a range of ```math \alpha ``` values (e.g., 0.001, 0.01, 0.1, 1.0) and plot their learning curves to find a value that causes the cost to decrease quickly and consistently.  
+A good approach is to try a range of $$α$$ values (e.g., 0.001, 0.01, 0.1, 1.0) and plot their learning curves to find a value that causes the cost to decrease quickly and consistently.
 
 ![](/images/M2/gradient-descent-choice.png)
 
 ### ❓ Knowledge Check
 
-**Question:** You run gradient descent for 15 iterations with α = 0.3 and compute ```math J(w) ``` after each iteration. You find that the value of ```math J(w) ``` increases over time. How do you think you should adjust the learning rate ```math \alpha ```?  
+**Question:** You run gradient descent for 15 iterations with $$α$$ = 0.3 and compute $$J(w)$$ after each iteration. You find that the value of $$J(w)$$ increases over time. How do you think you should adjust the learning rate $$α$$?
 
-A. Try a larger value of α = 1.0  
+A. Try a larger value of $$α$$ = 1.0  
 B. Keep running it for additional iterations  
-C. Try a smaller value of α = 0.1  
-D. Try running it for only 10 iterations so ```math J(w) ``` doesn't increase as much.  
+C. Try a smaller value of $$α$$ = 0.1  
+D. Try running it for only 10 iterations so $$J(w)$$ doesn't increase as much.  
 
 **Answer:**
 > **C.** Since the cost function is increasing, we know that gradient descent is diverging. This indicates that the learning rate is too high, so we should try a smaller value.  
@@ -116,7 +116,7 @@ D. Try running it for only 10 iterations so ```math J(w) ``` doesn't increase as
 
 ### Goals
 *   Run Gradient Descent on a dataset with multiple features.  
-*   Explore the impact of the learning rate ```math \alpha ``` on convergence.  
+*   Explore the impact of the learning rate $$α$$ on convergence.
 *   Improve performance by applying Z-score normalization.  
 
 ### Problem Statement
@@ -167,7 +167,7 @@ The plots show that `size` and `age` have a stronger correlation with `price` th
 
 ### Gradient Descent for Multiple Variables
 
-The update rules for gradient descent remain the same, but are now applied to each parameter ```math w_j ``` and ```math b ```.  
+The update rules for gradient descent remain the same, but are now applied to each parameter $$w_j$$ and $$b$$.
 
 ```math
 w_j := w_j - \alpha \frac{\partial J(\mathbf{w},b)}{\partial w_j}
@@ -180,7 +180,7 @@ b := b - \alpha \frac{\partial J(\mathbf{w},b)}{\partial b}
 
 Let's run gradient descent with the raw (unscaled) data and observe the effect of different learning rates.  
  
-**1. `α = 9.9e-7` (Too Large)**  
+**1. $$α$$ = `9.9e-7` (Too Large)**
 
 ```python
 #set alpha to 9.9e-7
@@ -213,13 +213,13 @@ plot_cost_i_w(X_train, y_train, hist)
 ```
 ![](/images/M2/cost-function-plot-for-high-alpha.png)  
 
-**2. `α = 9e-7` (Moderate)**
+**2. $$α$$ = `9e-7` (Moderate)**
 
 ```python
 #set alpha to 9e-7
 _,_,hist = run_gradient_descent(X_train, y_train, 10, alpha = 9e-7)
 ```
-The cost is now decreasing, but the parameter ```math w_0 ``` is oscillating around the optimal value, indicating the learning rate is still a bit high, causing it to "jump over" the minimum. It will eventually converge, but slowly.  
+The cost is now decreasing, but the parameter $$w_0$$ is oscillating around the optimal value, indicating the learning rate is still a bit high, causing it to "jump over" the minimum. It will eventually converge, but slowly.
 
 <details>
 <summary>Click to see full output</summary>  
@@ -246,7 +246,7 @@ plot_cost_i_w(X_train, y_train, hist)
 ```
 ![](/images/M2/cost-function-plot-for-moderate-alpha.png)
 
-**3. `α = 1e-7` (Too Small)**  
+**3. $$α$$ = `1e-7` (Too Small)**
 ```python
 #set alpha to 1e-7
 _,_,hist = run_gradient_descent(X_train, y_train, 10, alpha = 1e-7)
@@ -395,7 +395,7 @@ The model provides good predictions across all features.
 
 #### Predicting on New Data
 
-To predict the price of a new house, you must normalize its features using the **same ```math \mu ``` and ```math \sigma ```** calculated from the training set.  
+To predict the price of a new house, you must normalize its features using the **same $$ \mu $$ and $$ \sigma $$** calculated from the training set.
 
 ```python
 # Predict the price of a house with 1200 sqft, 3 bedrooms, 1 floor, 40 years old.
@@ -434,11 +434,11 @@ The choice of features significantly impacts a model's performance. By using dom
 
 **Question:** If you have measurements for the dimensions of a swimming pool (length, width, height), which of the following two would be a more useful engineered feature?  
 
-A. ```math \text{length} \times \text{width} \times \text{height} ```  
-B. ```math \text{length} + \text{width} + \text{height} ```  
+A. $$\text{length} \times \text{width} \times \text{height} $$  
+B. $$\text{length} + \text{width} + \text{height}$$  
   
 **Answer:**
-> **A.** The volume (```math \text{length} \times \text{width} \times \text{height} ```) of the swimming pool is likely a more useful feature for many prediction tasks (e.g., predicting the cost to fill it) than the sum of its dimensions.  
+> **A.** The volume $$(\text{length} \times \text{width} \times \text{height})$$ of the swimming pool is likely a more useful feature for many prediction tasks (e.g., predicting the cost to fill it) than the sum of its dimensions.
 
 ### Polynomial Regression
 
@@ -448,10 +448,10 @@ For example, if your data seems to follow a quadratic curve:
 
 ![](/images/M2/choice-of-features.png)
 
-Instead of the model ```math f(x) = w_1 x_1 + b ```, you can create a new feature ```math x_1^2 ``` and fit the model:  
-```math f(x) = w_1 x_1 + w_2 (x_1^2) + b ```
+Instead of the model $$f(x) = w_1 x_1 + b$$, you can create a new feature $$x_1^2$$ and fit the model:
+$$f(x) = w_1 x_1 + w_2 (x_1^2) + b$$
 
-Even though the function is a curve with respect to ```math x ```, it is a **linear function** with respect to the features ```math x_1 ``` and ```math x_1^2 ```. This allows us to use the same linear regression algorithm.  
+Even though the function is a curve with respect to $$x$$, it is a **linear function** with respect to the features $$x_1$$ and $$x_1^2$$. This allows us to use the same linear regression algorithm.  
 
 ![](/images/M2/choice-of-features-2.png)
 
@@ -475,7 +475,7 @@ np.set_printoptions(precision=2)  # reduced display precision on numpy arrays
 
 ### Linear Model on Non-linear Data
 
-Let's try to fit a linear model to quadratic data ```math y = 1 + x^2 ```.  
+Let's try to fit a linear model to quadratic data $$y = 1 + x^2$$.  
 
 ```python
 # create target data
@@ -498,7 +498,7 @@ As expected, a straight line is a poor fit for this data.
 
 ### Adding a Polynomial Feature (x²)
 
-Now, let's engineer a new feature, ```math x^2 ```, and train the model again.  
+Now, let's engineer a new feature, $$x^2$$, and train the model again.  
 
 ```python
 # create target data
@@ -520,11 +520,11 @@ w,b found by gradient descent: w: [1.], b: 0.0490
 ```
 ![](/images/M2/with-feature-engineering-plot.png)
 
-The fit is now nearly perfect! The learned parameters ```math w \approx [1.0] ``` and ```math b \approx 0.05 ``` are very close to the true model ```math y = 1 \cdot x^2 + 1 ```.  
+The fit is now nearly perfect! The learned parameters $$w \approx [1.0]$$ and $$b \approx 0.05$$ are very close to the true model $$y = 1 \cdot x^2 + 1$$.  
 
 ### Selecting Features
 
-What if we aren't sure which polynomial terms are needed? We can add several and let gradient descent figure it out. Let's try fitting ```math y = x^2 ``` with features ```math x ```, ```math x^2 ```, and ```math x^3 ```.  
+What if we aren't sure which polynomial terms are needed? We can add several and let gradient descent figure it out. Let's try fitting $$y = x^2$$ with features $$x$$, $$x^2$$, and $$x^3$$.  
 
 ```python
 # create target data
@@ -545,11 +545,11 @@ w,b found by gradient descent: w: [0.08 0.54 0.03], b: 0.0106
 ```
 ![](/images/M2/feature-selection-1.png)
 
-The learned model is ```math y \approx 0.08x + 0.54x^2 + 0.03x^3 + 0.01 ```. Gradient descent has assigned the largest weight (```math w_1=0.54 ```) to the ```math x^2 ``` feature, correctly identifying it as the most important one. The weights for ```math x ``` and ```math x^3 ``` are much smaller.  
+The learned model is $$y \approx 0.08x + 0.54x^2 + 0.03x^3 + 0.01$$. Gradient descent has assigned the largest weight ($$w_1=0.54$$) to the $$x^2$$ feature, correctly identifying it as the most important one. The weights for $$x$$ and $$x^3$$ are much smaller.  
 
 ### An Alternate View
 
-The best features for linear regression are those that have a linear relationship with the target ```math y ```. Plotting our engineered features against ```math y ``` confirms this.  
+The best features for linear regression are those that have a linear relationship with the target $$y$$. Plotting our engineered features against $$y$$ confirms this.  
 
 ```python
 # create target data
@@ -569,11 +569,11 @@ plt.show()
 ```
 ![](/images/M2/polynomial-features-plot.png)
 
-Clearly, ```math x^2 ``` has a linear relationship with ```math y ```, making it the perfect feature for a linear regression model.  
+Clearly, $$x^2$$ has a linear relationship with $$y$$, making it the perfect feature for a linear regression model.  
 
 ### Scaling Features
 
-When creating polynomial features like ```math x ```, ```math x^2 ```, and ```math x^3 ```, their scales will be vastly different. Feature scaling is essential here to speed up gradient descent.  
+When creating polynomial features like $$x$$, $$x^2$$, and $$x^3$$, their scales will be vastly different. Feature scaling is essential here to speed up gradient descent.  
 
 ```python
 # create target data
@@ -604,7 +604,7 @@ w,b found by gradient descent: w: [5.27e-05 1.13e+02 8.43e-05], b: 123.5000
 ```
 ![](/images/M2/normalized-polynomial-features.png)
 
-After normalization, gradient descent gives a much larger weight to the ```math x^2 ``` term and almost zero weight to the others, resulting in a very accurate model.  
+After normalization, gradient descent gives a much larger weight to the $$x^2$$ term and almost zero weight to the others, resulting in a very accurate model.  
 
 ### Modeling Complex Functions
 
@@ -682,7 +682,7 @@ number of iterations completed: 106, number of weight updates: 10495.0
 ```
 
 ### 4. View Parameters
-The learned parameters are stored in `sgdr.coef_` (for ```math \mathbf{w} ```) and `sgdr.intercept_` (for ```math b ```).  
+The learned parameters are stored in `sgdr.coef_` (for $$\mathbf{w}$$) and `sgdr.intercept_` (for $$b$$).  
 ```python
 b_norm = sgdr.intercept_
 w_norm = sgdr.coef_
@@ -826,7 +826,7 @@ All tests passed!
 ![](/images/M2/gradient-descent.png)
 
 #### Exercise 2: `compute_gradient`
-Implement the function to compute the gradients ```math \frac{\partial J}{\partial w} ``` and ```math \frac{\partial J}{\partial b} ```.  
+Implement the function to compute the gradients $$\frac{\partial J}{\partial w}$$ and $$\frac{\partial J}{\partial b}$$.  
 ```math
 \frac{\partial J(w,b)}{\partial w} = \frac{1}{m} \sum_{i=1}^{m} (f_{w,b}(x^{(i)}) - y^{(i)})x^{(i)}
 ```
@@ -1046,10 +1046,10 @@ For population = 70,000, we predict a profit of $45342.45
 
 **1. Which of the following is a valid step used during feature scaling?**  
 ![](/images/M2/gradient-descent-quiz-1.png)
-> **A. Subtract the mean (average) from each value and then divide by the (```math \text{max} - \text{min} ```)**
+> **A. Subtract the mean (average) from each value and then divide by the $$(\text{max} - \text{min})$$**
 > This method is called Mean Normalization.  
 
-**2. Suppose a friend ran gradient descent three separate times with three choices of the learning rate ```math \alpha ``` and plotted the learning curves. For which case, A or B, was the learning rate ```math \alpha ``` likely too large?**  
+**2. Suppose a friend ran gradient descent three separate times with three choices of the learning rate $$α$$ and plotted the learning curves. For which case, A or B, was the learning rate $$α$$ likely too large?**  
 ![](/images/M2/gradient-descent-quiz-2.png)
 > **B. case B only**
 > The cost is increasing, which indicates that gradient descent is diverging, a classic sign of a learning rate that is too large.  
@@ -1062,6 +1062,6 @@ For population = 70,000, we predict a profit of $45342.45
 > **A. For each product, calculate the number of items sold times price per item.**  
 > This new feature directly represents the revenue for each product, which is likely a very strong predictor for the store's total revenue.  
 
-**5. True/False? With polynomial regression, the predicted values ```math f_{\mathbf{w},b}(x) ``` do not necessarily have to be a straight line (or linear) function of the input feature ```math x ```.**  
+**5. True/False? With polynomial regression, the predicted values $$f_{\mathbf{w},b}(x)$$ do not necessarily have to be a straight line (or linear) function of the input feature $$x$$.**  
 > **B. True**  
-> By creating polynomial features (like ```math x^2 ```, ```math x^3 ```, etc.), we can model non-linear relationships, resulting in a curved prediction line.  
+> By creating polynomial features (like $$x^2$$, $$x^3$$, etc.), we can model non-linear relationships, resulting in a curved prediction line.  

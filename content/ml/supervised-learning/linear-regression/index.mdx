@@ -15,27 +15,29 @@ Linear Regression is a fundamental algorithm used to predict a continuous numeri
 To understand the model, let's first define our notation:
 
 -   **Training Set**: The data used to train the model.
--   `x`: The **input variable** or **feature**. (e.g., size of a house).
--   `y`: The **output variable** or **target**. This is the true value we want to predict (e.g., price of the house).
--   `m`: The total number of training examples in the dataset.
--   `(x, y)`: A single training example.
--   `(x^(i), y^(i))`: The i-th training example in the dataset (e.g., `(x^(1), y^(1))` is the first example).
+-   $$x$$: The **input variable** or **feature**. (e.g., size of a house).
+-   $$y$$: The **output variable** or **target**. This is the true value we want to predict (e.g., price of the house).
+-   $$m$$: The total number of training examples in the dataset.
+-   $$(x, y)$$: A single training example.
+-   $$(x^{(i)}, y^{(i)})$$: The i-th training example in the dataset (e.g., $$(x^{(1)}, y^{(1)})$$ is the first example).
 
 ### 🧠 The Model (Hypothesis)
 
-The model is a function, which we'll call `f`, that takes an input `x` and produces a prediction `ŷ` (pronounced "y-hat").
+The model is a function, which we'll call $$f$$, that takes an input $$x$$ and produces a prediction $$ŷ$$ (pronounced "y-hat").
 
--   `f`: The model or hypothesis function.
--   `ŷ`: The predicted output from the model.
+-   $$f$$: The model or hypothesis function.
+-   $$ŷ$$: The predicted output from the model.
 
-For **Univariate Linear Regression** (linear regression with one variable), the model `f` is a linear function:
+For **Univariate Linear Regression** (linear regression with one variable), the model $$f$$ is a linear function:
 
-> **f<sub>w,b</sub>(x) = w * x + b**
+```math
+f_{w,b}(x) = w \cdot x + b \
+```
 
 Here:
--   `w` is the **weight** of the model (determines the slope of the line).
--   `b` is the **bias** of the model (determines the y-intercept).
--   `w` and `b` are also called the **parameters** of the model.
+-   $$w$$ is the **weight** of the model (determines the slope of the line).
+-   $$b$$ is the **bias** of the model (determines the y-intercept).
+-   $$w$$ and $$b$$ are also called the **parameters** of the model.
 
 ![Linear Regression Function](/images/M1/linear-regression-2.png)
 
@@ -116,47 +118,47 @@ print(f"Predicted price for a 1200 sqft house: ${cost_1200sqft:.0f} thousand dol
 
 ## 💰 The Cost Function
 
-To find the best possible line to fit our data, we need a way to measure how well our model is performing. This is where the **Cost Function**, denoted as **J(w, b)**, comes in.
+To find the best possible line to fit our data, we need a way to measure how well our model is performing. This is where the **Cost Function**, denoted as $$J(w, b)$$, comes in.
 
-The cost function measures the difference (or error) between the model's predictions (`ŷ`) and the actual target values (`y`). For linear regression, the most common cost function is the **Squared Error Cost Function**.
+The cost function measures the difference (or error) between the model's predictions ($$ŷ$$) and the actual target values ($$y$$). For linear regression, the most common cost function is the **Squared Error Cost Function**.
 
 ![Cost Function Formula](/images/M1/cost-function.png)
 
-> **Goal:** Find the values of `w` and `b` that **minimize** the cost function `J(w, b)`.
+> **Goal:** Find the values of $$w$$ and $$b$$ that **minimize** the cost function $$J(w, b)$$.
 
 ![Goal of Minimizing Cost](/images/M1/goal.png)
 
 ### 🤔 Cost Function Intuition
 
-Let's simplify our model to build intuition. Assume `b = 0`, so our model is just `f_w(x) = w*x`. The line must pass through the origin.
+Let's simplify our model to build intuition. Assume $$b = 0$$, so our model is just $$f_w(x) = w*x$$. The line must pass through the origin.
 
 ![Simplified Linear Regression](/images/M1/simplified-linear-regression.png)
 
-Now, our cost function `J` only depends on `w`: `J(w)`. We can plot `J(w)` versus `w`.
+Now, our cost function $$J$$ only depends on $$w$$: $$J(w)$$. We can plot $$J(w)$$ versus $$w$$.
 
--   `f_w(x)` is a function of `x` (the input).
--   `J(w)` is a function of `w` (the parameter).
+-   $$f_w(x)$$ is a function of $$x$$ (the input).
+-   $$J(w)$$ is a function of $$w$$ (the parameter).
 
-The plots below show how changing `w` affects both the model's prediction line and the value of the cost function `J(w)`.
+The plots below show how changing $$w$$ affects both the model's prediction line and the value of the cost function $$J(w)$$.
 
-| Model `f_w(x)` (Prediction Line) | Cost Function `J(w)` |
+| Model $$f_w(x)$$ (Prediction Line) | Cost Function $$J(w)$$ |
 | :---: | :---: |
-| ![Model for w=1](/images/M1/fwx-vs-jw.png) | The cost `J(w)` is 0 when w=1, which is the optimal value. |
-| ![Model for w=0.5](/images/M1/fwx-vs-jw-2.png) | The cost `J(w)` is higher when w=0.5. |
-| ![Model for w=1.5](/images/M1/fwx-vs-jw-3.png) | The cost `J(w)` is also higher when w=1.5. |
+| ![Model for w=1](/images/M1/fwx-vs-jw.png) | The cost $$J(w)$$ is 0 when $$w=1$$, which is the optimal value. |
+| ![Model for w=0.5](/images/M1/fwx-vs-jw-2.png) | The cost $$J(w)$$ is higher when $$w=0.5$$. |
+| ![Model for w=1.5](/images/M1/fwx-vs-jw-3.png) | The cost $$J(w)$$ is also higher when $$w=1.5$$. |
 
-Plotting `J(w)` for a range of `w` values gives us a parabola (a bowl shape). Our goal is to find the value of `w` at the bottom of the bowl, where the cost is at its minimum.
+Plotting $$J(w)$$ for a range of $$w$$ values gives us a parabola (a bowl shape). Our goal is to find the value of $$w$$ at the bottom of the bowl, where the cost is at its minimum.
 
 ![J(w) Plot](/images/M1/jw-plot.png)
 ![Minimizing J(w)](/images/M1/minimizing-jw.png)
 
-### 🎨 Visualizing the Full Cost Function `J(w, b)`
+### 🎨 Visualizing the Full Cost Function $$J(w, b)$$
 
-When we re-introduce the bias term `b`, our cost function `J(w, b)` depends on two parameters. Visualizing this requires a 3D plot.
+When we re-introduce the bias term $$b$$, our cost function $$J(w, b)$$ depends on two parameters. Visualizing this requires a 3D plot.
 
 ![Cost Function Visualization Goals](/images/M1/cost-function-minimization-goals.png)
 
-The 3D surface plot of `J(w, b)` forms a "bowl" shape. The lowest point of the bowl represents the minimum cost, and the `w` and `b` values at that point are our optimal parameters.
+The 3D surface plot of $$J(w, b)$$ forms a "bowl" shape. The lowest point of the bowl represents the minimum cost, and the $$w$$ and $$b$$ values at that point are our optimal parameters.
 
 ![3D Surface Plot of J(w,b)](/images/M1/3d-surface-plot-of-jwb.png)
 
@@ -164,18 +166,18 @@ A more convenient way to visualize this in 2D is using a **Contour Plot**. Imagi
 
 ![Mount Fuji Contour Map Analogy](/images/M1/mt-fuji-contour-map.png)
 
-Each ellipse on the contour plot represents a set of `(w, b)` pairs that result in the *same* cost `J(w, b)`. The center of the innermost ellipse is the point of minimum cost.
+Each ellipse on the contour plot represents a set of $$(w, b)$$ pairs that result in the *same* cost $$J(w, b)$$. The center of the innermost ellipse is the point of minimum cost.
 
 ![Cost Function 3D and Contour Plots](/images/M1/cost-function-3d-plot.png)
 ![Contour Plot of J(w,b)](/images/M1/contour-plot-of-jwb.png)
 
-As we move the point `(w, b)` on the contour plot, the prediction line `f(x)` on the data plot changes. The goal is to find the center of the ellipses, which corresponds to the best-fit line.
+As we move the point $$(w, b)$$ on the contour plot, the prediction line $$f(x)$$ on the data plot changes. The goal is to find the center of the ellipses, which corresponds to the best-fit line.
 
 ![Cost Function Visualization Example](/images/M1/cost-function-visualization.png)
 
 ### 🧪 Lab: Visualizing the Cost Function
 
-This lab provides interactive plots to explore how `w` and `b` affect the cost `J(w, b)`.
+This lab provides interactive plots to explore how $$w$$ and $$b$$ affect the cost $$J(w, b)$$.
 
 ```python
 import numpy as np
@@ -234,18 +236,24 @@ soup_bowl()
 
 The core formulas for the Linear Regression model and its cost function are:
 
-1.  **Model (Hypothesis):** The prediction `f(x)` for a single input `x`.
+1.  **Model (Hypothesis):** The prediction $$f(x)$$ for a single input $$x$$.
     ![Model Formula](/images/M1/note.png)
-    > **f<sub>w,b</sub>(x<sup>(i)</sup>) = w * x<sup>(i)</sup> + b**
+    ```math
+    f_{w,b}(x^{(i)}) = w * x^{(i)} + b
 
-2.  **Cost Function:** `J(w, b)` measures the average squared error over all `m` training examples.
+    ```
+
+2.  **Cost Function:** $$J(w, b)$$ measures the average squared error over all $$m$$ training examples.
     ![Cost Function Formula](/images/M1/note-2.png)
-    > **J(w,b) = (1 / 2m) * Σ<sub>i=1</sub><sup>m</sup> (f<sub>w,b</sub>(x<sup>(i)</sup>) - y<sup>(i)</sup>)<sup>2</sup>**
 
+    ```math
+    J(w, b) = \frac{1}{2m} \sum_{i=1}^{m} \left( f_{w,b}(x^{(i)}) - y^{(i)} \right)^2
+
+    ```
     Where:
-    -   `Σ` is the summation symbol, summing from `i=1` to `m`.
-    -   `(f_w,b(x^(i)) - y^(i))` is the error for the i-th example.
+    -   $$Σ$$ is the summation symbol, summing from $$i=1$$ to $$m$$.
+    -   $$(f_w,b(x^{(i)}) - y^{(i)})$$ is the error for the i-th example.
     -   The error is squared to penalize larger errors more and to ensure the cost is always positive.
-    -   `1/2m` is a scaling factor. The `1/m` gives the average error, and the `1/2` simplifies the math for the derivative later on.
+    -   $$\frac{1}{2m}$$ is a scaling factor. The $$\frac{1}{m}$$ gives the average error, and the $$\frac{1}{2}$$ simplifies the math for the derivative later on.
 
 ---

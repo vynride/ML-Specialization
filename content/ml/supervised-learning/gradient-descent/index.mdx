@@ -6,43 +6,46 @@ description: This section covers Gradient Descent, the optimization engine that 
 Gradient Descent is a powerful optimization algorithm that isn't limited to linear regression. It can be applied to more general functions with many parameters.
 
 #### The Goal of Gradient Descent
-The primary goal is to find the values for the model parameters (e.g., **w** and **b**) that minimize the cost function `J(w, b)`.
+The primary goal is to find the values for the model parameters (e.g., $$w$$ and $$b$$) that minimize the cost function $$J(w, b)$$.
 
-**Goal:** `min J(w₁, w₂, ..., wₙ, b)` over `w₁, ..., wₙ, b`
+**Goal:** $$min J(w₁, w₂, ..., wₙ, b)$$ over $$w₁, ..., wₙ, b$$
 
 #### The Algorithm
 The process is intuitive:
-1.  **Initialize:** Start with some initial values for your parameters `w` and `b` (e.g., `w = 0`, `b = 0`).
-2.  **Iterate:** Repeatedly adjust `w` and `b` in a direction that reduces the cost `J(w,b)`.
+1.  **Initialize:** Start with some initial values for your parameters $$w$$ and $$b$$ (e.g., $$w = 0$$, $$b = 0$$).
+2.  **Iterate:** Repeatedly adjust $$w$$ and $$b$$ in a direction that reduces the cost $$J(w,b)$$.
 3.  **Converge:** Stop when the algorithm settles at or near a minimum, where the cost no longer decreases significantly.
 
 This can be visualized as walking downhill on a graph of the cost function until you reach the lowest point.
 
 ![Visualizing Gradient Descent](/images/M1/gradient-descent-1.png)
 
-The core of the algorithm involves simultaneously updating the parameters `w` and `b` using their partial derivatives with respect to the cost function.
+The core of the algorithm involves simultaneously updating the parameters $$w$$ and $$b$$ using their partial derivatives with respect to the cost function.
 
-```
-repeat until convergence {
-  w = w - α * ∂J(w,b)/∂w
-  b = b - α * ∂J(w,b)/∂b
-}
+
+```math
+\begin{aligned}
+\text{repeat until convergence \{} \\
+\quad w := w - \alpha \cdot \frac{\partial J(w, b)}{\partial w} \\
+\quad b := b - \alpha \cdot \frac{\partial J(w, b)}{\partial b} \\
+\text{\}}
+\end{aligned}
 ```
 
--   **w, b**: The model parameters.
--   **α (alpha)**: The **learning rate**, a positive scalar that controls the size of each step.
--   **∂J(w,b)/∂w**: The partial derivative (or gradient) of the cost function with respect to `w`. This tells us the slope of the cost function in the `w` direction.
--   **∂J(w,b)/∂b**: The partial derivative of the cost function with respect to `b`.
+-   $$w, b$$: The model parameters.
+-   $$α$$: The **learning rate**, a positive scalar that controls the size of each step.
+-   $$\frac{\partial J(w, b)}{\partial w}$$: The partial derivative (or gradient) of the cost function with respect to $$w$$. This tells us the slope of the cost function in the $$w$$ direction.
+-   $$\frac{\partial J(w, b)}{\partial b}$$: The partial derivative of the cost function with respect to $$b$$.
 
 ![Gradient Descent Algorithm Flow](/images/M1/gradient-descent-algorithm.png)
 ![Gradient Descent Algorithm Details](/images/M1/gradient-descent-algorithm-2.png)
 
-#### 💡 The Importance of the Learning Rate (α)
+#### 💡 The Importance of the Learning Rate ($$α$$)
 
 Choosing the right learning rate is crucial for the success of Gradient Descent.
 
--   **If α is too small:** The algorithm will take very slow, tiny steps, leading to a long convergence time.
--   **If α is too large:** The algorithm might "overshoot" the minimum, causing the cost to oscillate or even increase. In the worst case, it can **diverge**, with the cost growing indefinitely.
+-   **If $$α$$ is too small:** The algorithm will take very slow, tiny steps, leading to a long convergence time.
+-   **If $$α$$ is too large:** The algorithm might "overshoot" the minimum, causing the cost to oscillate or even increase. In the worst case, it can **diverge**, with the cost growing indefinitely.
 
 ![Choosing the right learning rate](/images/M1/learning-rate-1.png)
 

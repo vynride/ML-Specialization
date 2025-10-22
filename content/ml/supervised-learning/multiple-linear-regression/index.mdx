@@ -12,8 +12,8 @@ When we move from a single feature to multiple features, our model for linear re
 
 Let's define the precise notation for a model with multiple features, as seen in a typical dataset.
 
-*   **m**: The total number of training examples.
-*   **n**: The total number of features.
+*   **$$m$$**: The total number of training examples.
+*   **$$n$$**: The total number of features.
 *   **$$\vec{x}^{(i)}$$**: A vector representing all the feature values of the **i-th training example**. For instance, $$\vec{x}^{(2)} =$$ `[1416, 3, 2, 40]`.
 *   **$$x_j^{(i)}$$**: The value of the **j-th feature** in the **i-th training example**. For instance, $$x_3^{(2)} =$$ `2`, representing the "Number of floors" for the second house.
 *   **$$\vec{w}$$**: The model's parameters (weights or coefficients), represented as a vector $$[w_1, w_2, ..., w_n]$$.
@@ -27,7 +27,7 @@ Previously, with a single feature, our model was:
 f_{w,b}(x) = wx + b
 ```
 
-Now, with **n** features, the prediction for a single training example $$\vec{x}^{(i)}$$ is the sum of each feature multiplied by its corresponding weight, plus the bias:
+Now, with **$$n$$** features, the prediction for a single training example $$\vec{x}^{(i)}$$ is the sum of each feature multiplied by its corresponding weight, plus the bias:
 
 ```math
 f_{\vec{w},b}(\vec{x}^{(i)}) = w_1x_1^{(i)} + w_2x_2^{(i)} + w_3x_3^{(i)} + \dots + w_nx_n^{(i)} + b
@@ -131,8 +131,8 @@ The term "dimension" can be confusing because it has different meanings in mathe
 #### Key Distinction: `shape(n,)` vs `shape(n, 1)`
 
 This is a crucial concept in NumPy:
-*   **`shape(n,)`**: A 1-D array (a "rank-1" array or flat vector) with `n` elements.
-*   **`shape(n, 1)`**: A 2-D array (a matrix) with `n` rows and 1 column.
+*   **`shape(n,)`**: A 1-D array (a "rank-1" array or flat vector) with $$n$$ elements.
+*   **`shape(n, 1)`**: A 2-D array (a matrix) with $$n$$ rows and $$1$$ column.
 
 ### Vector Operations
 
@@ -342,7 +342,7 @@ As shown, vectorization offers a massive speed-up by using optimized, paralleliz
 
 ### Note on Course Notation
 
-In this course, our training data `X_train` will often be a 2-D array (matrix) of shape `(m, n)`, where `m` is the number of training examples and `n` is the number of features. When we process it example-by-example, we will index a single row, e.g., `X[i]`. This operation `X[i]` returns a **1-D vector** of shape `(n,)`.
+In this course, our training data `X\_train` will often be a 2-D array (matrix) of shape $$(m, n)$$, where $$m$$ is the number of training examples and $$n$$ is the number of features. When we process it example-by-example, we will index a single row, e.g., $$X[i]$$. This operation $$X[i]$$ returns a **1-D vector** of shape $$(n,)$$.
 
 ### Matrix Operations
 
@@ -436,7 +436,7 @@ The algorithm for gradient descent remains the same, but the implementation now 
 
 ### Algorithm with Vector Notation
 
-The update rules for the parameters are applied simultaneously for all `j = 1, ..., n`.
+The update rules for the parameters are applied simultaneously for all $$j = 1, ..., n$$.
 
 ![Gradient Descent Vector Notation](/images/M2/gradient-descent-vector-notation.png)
 
@@ -460,7 +460,7 @@ The Normal Equation is an analytical, non-iterative method for finding the optim
 
 #### Disadvantages ❌
 *   It does **not** generalize to other learning algorithms (like logistic regression).
-*   It can be computationally slow when the number of features (`n`) is very large (e.g., n > 10,000), due to the need to compute a matrix inverse, which is an $$O(n^3)$$ operation.
+*   It can be computationally slow when the number of features ($$n$$) is very large (e.g., $$n$$ > 10,000), due to the need to compute a matrix inverse, which is an $$O(n^3)$$ operation.
 
 ---
 
