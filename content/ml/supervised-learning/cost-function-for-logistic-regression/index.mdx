@@ -1,0 +1,373 @@
+---
+title: "Cost Function for Logistic Regression"
+order: 7
+description: This section cover the Cost Function for Logistic Regression and why Mean Squared Error (MSE) function is not a good Cost Function for Logistic Regression.
+---
+
+The **Cost Function** provides a way to measure how well a specific set of parameters fits the training data. It thereby acts as a compass, helping us choose a better set of parameters during optimization.
+
+## Why Not Mean Squared Error (MSE)? 🤔
+
+![Logistic Regression Training Set](/images/M3/logistic-regression-training-set.png)
+
+![Loss Function](/images/M3/loss-function.png)
+
+In Linear Regression, we used the **Mean Squared Error (MSE)** function. You might consider using the same for Logistic Regression.
+
+However, if we plot the cost values using the logistic regression output (which includes the non-linear sigmoid function), we get a **non-convex** cost function.
+
+```math 
+f_{\mathbf{w},b}(\mathbf{x}^{(i)}) = \sigma(\mathbf{w} \cdot \mathbf{x}^{(i)} + b)
+```
+
+If we try to use MSE with this non-linear function:
+1.  The cost function will have many **local minima** (valleys that are not the deepest point).
+2.  **Gradient Descent** will likely get stuck in these local minima and fail to find the optimal parameters.
+
+Therefore, **we cannot use the Mean Squared Error Cost Function for Logistic Regression.**
+
+## Logistic Loss Function 🔍
+
+To handle classification (where $y$ is 0 or 1), we define a specific **Loss** function for a single training example.
+
+![Loss Function](/images/M3/logistic-loss-function-1.png)
+
+The Logistic Loss is defined piece-wise:
+
+```math
+L(f_{\mathbf{w},b}(\mathbf{x}^{(i)}), y^{(i)}) = \begin{cases}
+- \log(f_{\mathbf{w},b}(\mathbf{x}^{(i)})) & \text{if } y^{(i)} = 1 \\
+- \log(1 - f_{\mathbf{w},b}(\mathbf{x}^{(i)})) & \text{if } y^{(i)} = 0
+\end{cases}
+```
+
+### Case 1: Target $$y^{(i)} = 1$$
+
+![Loss Function](/images/M3/logistic-loss-function-2.png)
+
+When the true label is 1, the loss is:
+
+```math
+L(f_{\mathbf{w},b}(\mathbf{x}^{(i)}), y^{(i)}) = -\log(f_{\mathbf{w},b}(\mathbf{x}^{(i)}))
+```
+
+*   **As $$f_{\mathbf{w},b}(\mathbf{x}^{(i)}) \to 1$$:** The loss $$\to 0$$.
+*   **As $$f_{\mathbf{w},b}(\mathbf{x}^{(i)}) \to 0$$:** The loss $$\to \infty$$.
+
+> **Insight:** Loss is lowest when the prediction $$f_{\mathbf{w},b}(\mathbf{x}^{(i)})$$ is close to the true label $$y^{(i)}$$.
+
+### Case 2: Target $$y^{(i)} = 0$$
+
+![Loss Function](/images/M3/logistic-loss-function-3.png)
+
+When the true label is 0, the loss is:
+
+```math
+L(f_{\mathbf{w},b}(\mathbf{x}^{(i)}), y^{(i)}) = -\log(1 - f_{\mathbf{w},b}(\mathbf{x}^{(i)}))
+```
+
+*   **If $$f_{\mathbf{w},b}(\mathbf{x}^{(i)}) \to 0$$:** The loss $$\to 0$$.
+*   **If $$f_{\mathbf{w},b}(\mathbf{x}^{(i)}) \to 1$$:** The loss $$\to \infty$$.
+
+So, the further the prediction is from the true target value, the higher the loss.
+
+### Visualizing the Cost
+
+The final Cost function is the average of these losses over the training set.
+
+![Loss Function](/images/M3/logistic-loss-function-4.png)
+
+---
+
+### 🧠 Concept Check
+
+**Question:** Why is the squared error cost not used in logistic regression?
+
+*   **A)** The non-linear nature of the model results in a “wiggly”, non-convex cost function with many potential local minima.
+*   **B)** The mean squared error is used for logistic regression.
+
+**Correct Answer:** **A** ✅
+
+> *Explanation:* Using mean squared error for logistic regression creates a "non-convex" cost function, making it difficult for gradient descent to find the optimal parameters $$w$$ and $$b$$.
+
+---
+
+## 🧪 Lab: Logistic Loss Exploration 
+
+In this section, we explore *why* squared error is unsuitable and examine the logistic loss function.
+
+### 1. The "Soup Bowl" of Linear Regression
+
+Recall that for **Linear Regression**, we used the squared error cost function:
+
+```math
+J(w,b) = \frac{1}{2m} \sum_{i = 0}^{m-1} (f_{w,b}(x^{(i)}) - y^{(i)})^2
+```
+
+This function is convex (shaped like a soup bowl), meaning derivative-based optimization always finds the bottom.
+
+![Soup Bowl](/images/M3/soup-bowl.png)
+
+### 2. Trying Squared Error on Logistic Data
+
+If we apply the squared error formula to Logistic Regression (where $$f(x)$$ is the sigmoid function), the surface changes.
+
+```python
+import numpy as np
+# %matplotlib widget
+import matplotlib.pyplot as plt
+from plt_logistic_loss import  plt_logistic_cost, plt_two_logistic_loss_curves, plt_simple_example
+from plt_logistic_loss import soup_bowl, plt_logistic_squared_error
+plt.style.use('./deeplearning.mplstyle')
+
+# Training Data
+x_train = np.array([0., 1, 2, 3, 4, 5], dtype=np.longdouble)
+y_train = np.array([0,  0, 0, 1, 1, 1], dtype=np.longdouble)
+
+# Visualize categorical data
+plt_simple_example(x_train, y_train)
+```
+
+![](/images/M3/example-of-logistic-regression-on-categorical-data.png)
+
+Now, let's plot the cost surface using **squared error cost**:
+
+```math
+J(w,b) = \frac{1}{2m} \sum_{i = 0}^{m-1} (f_{w,b}(x^{(i)}) - y^{(i)})^2
+```
+
+Where,
+```math
+f_{w,b}(x^{(i)}) = \text{sigmoid}(wx^{(i)} + b)
+```
+
+```python
+plt.close('all')
+plt_logistic_squared_error(x_train,y_train)
+plt.show()
+```
+
+![Logistic Square Error cost](/images/M3/loss-square-error-cost.png)
+
+> **Observation:** The surface is not smooth like the 'soup bowl'! It has plateaus and local minima. This confirms why squared error is bad for logistic regression.
+
+### 3. The Logistic Loss Function Curves
+
+Logistic Regression requires a loss function suited for categorization ($$y=0$$ or $$y=1$$).
+
+*   **Loss:** Measure of difference for a single example.
+*   **Cost:** Measure of losses over the entire training set.  
+
+The logistic loss is defined as:
+
+```math
+loss(f_{\mathbf{w},b}(\mathbf{x}^{(i)}), y^{(i)}) = \begin{cases}
+    - \log\left(f_{\mathbf{w},b}\left( \mathbf{x}^{(i)} \right) \right) & \text{if } y^{(i)}=1\\
+    - \log \left( 1 - f_{\mathbf{w},b}\left( \mathbf{x}^{(i)} \right) \right) & \text{if } y^{(i)}=0
+\end{cases}
+```
+
+![Logistic loss function](/images/M3/logistic-loss-function-lab-1.png)
+![Logistic loss function](/images/M3/logistic-loss-function-lab-2.png)
+![Logistic loss function](/images/M3/logistic-loss-function-lab-3.png)
+
+This creates two curves:
+
+```python
+plt_two_logistic_loss_curves()
+```
+
+![Loss curves for two categorical target values](/images/M3/loss-curves-for-two-categorical-target-values.png)
+
+Combined, these curves provide a convex shape (like a bowl) when aggregated into the Cost function, which is perfect for Gradient Descent.
+
+---
+
+## Simplified Cost Function ⚡️
+
+Writing code with `if/else` statements for every data point is inefficient. We can compress the two cases into a single mathematical equation.
+
+### The Combined Equation
+
+```math
+L(f_{\mathbf{w},b}(\mathbf{x}^{(i)}), y^{(i)}) = -y^{(i)} \log(f_{\mathbf{w},b}(\mathbf{x}^{(i)})) - (1 - y^{(i)}) \log(1 - f_{\mathbf{w},b}(\mathbf{x}^{(i)}))
+```
+
+**Why does this work?**
+
+*   **If $$y^{(i)} = 1$$:**
+    The second term $$-(1-1)$$ becomes 0.
+    The equation simplifies to: $$-\log(f_{\mathbf{w},b}(\mathbf{x}^{(i)}))$$
+    *(Matches the y=1 case)*
+
+*   **If $$y^{(i)} = 0$$:**
+    The first term $$-0$$ becomes 0.
+    The equation simplifies to: $$-\log(1 - f_{\mathbf{w},b}(\mathbf{x}^{(i)}))$$
+    *(Matches the y=0 case)*
+
+![Simplified loss function](/images/M3/simplified-loss-function.png)
+
+### The Global Cost Function $$J(\mathbf{w},b)$$
+
+The total cost is the average over all $$m$$ examples:
+
+```math
+J(\mathbf{w},b) = - \frac{1}{m} \sum_{i=0}^{m-1} \left[ y^{(i)} \log(f_{\mathbf{w},b}(\mathbf{x}^{(i)})) + (1 - y^{(i)}) \log(1 - f_{\mathbf{w},b}(\mathbf{x}^{(i)})) \right]
+```
+
+![Simplified Cost function](/images/M3/simplified-cost-function.png)
+
+**Key Properties:**
+1.  **Maximum Likelihood Estimation:** It is derived statistically to find the most probable parameters.
+2.  **Convexity:** It ensures a single global minimum.
+
+---
+
+### 🧠 Quiz: Simplified Loss
+
+**Question:** If the target $$y^{(i)}=1$$, what does the simplified expression simplify to?
+
+```math
+L = -y^{(i)}\log(f_{\mathbf{w},b}(\mathbf{x}^{(i)})) - (1 - y^{(i)}) \log(1 - f_{\mathbf{w},b}(\mathbf{x}^{(i)}))
+```
+
+*   **A)** $$-\log(f_{\mathbf{w},b}(\mathbf{x}^{(i)}))$$
+*   **B)** $$-\log(1 - f_{\mathbf{w},b}(\mathbf{x}^{(i)}))$$
+
+**Correct Answer:** **A** ✅
+
+> *Derivation:* Substitute $$y^{(i)}=1$$. The second term becomes zero because $$(1-1)=0$$. The first term remains as $$-1 \cdot \log(f_{\mathbf{w},b}(\mathbf{x}^{(i)}))$$.
+
+---
+
+## 💻 Lab: Implementing the Cost Function 
+
+Let's implement this in Python.
+
+**Dataset:**  
+$$X_{train}$$ has shape $$(m, n)$$.  
+$$y_{train}$$ has shape $$(m,)$$.  
+
+```python
+import numpy as np
+# %matplotlib widget
+import matplotlib.pyplot as plt
+from lab_utils_common import  plot_data, sigmoid, dlc
+plt.style.use('./deeplearning.mplstyle')
+
+X_train = np.array([[0.5, 1.5], [1,1], [1.5, 0.5], [3, 0.5], [2, 2], [1, 2.5]])
+y_train = np.array([0, 0, 0, 1, 1, 1])
+
+fig,ax = plt.subplots(1,1,figsize=(4,4))
+plot_data(X_train, y_train, ax)
+
+ax.axis([0, 4, 0, 3.5])
+ax.set_ylabel('$x_1$', fontsize=12)
+ax.set_xlabel('$x_0$', fontsize=12)
+plt.show()
+```
+
+### Python Implementation
+
+The algorithm loops over all examples, calculating the loss for each and accumulating the total cost.
+
+```python
+def compute_cost_logistic(X, y, w, b):
+    """
+    Computes cost
+
+    Args:
+      X (ndarray (m,n)): Data, m examples with n features
+      y (ndarray (m,)) : target values
+      w (ndarray (n,)) : model parameters  
+      b (scalar)       : model parameter
+      
+    Returns:
+      cost (scalar): cost
+    """
+
+    m = X.shape[0]
+    cost = 0.0
+    for i in range(m):
+        z_i = np.dot(X[i],w) + b
+        f_wb_i = sigmoid(z_i)
+        cost +=  -y[i]*np.log(f_wb_i) - (1-y[i])*np.log(1-f_wb_i)
+             
+    cost = cost / m
+    return cost
+```
+
+**Testing the function:**
+
+```python
+w_tmp = np.array([1,1])
+b_tmp = -3
+print(compute_cost_logistic(X_train, y_train, w_tmp, b_tmp))
+```
+*Expected Output:* `0.3668667864055175`
+
+### Comparing Parameters
+
+Let's verify if the cost function correctly identifies a bad model.
+
+*   **Model 1:** $$b = -3, \mathbf{w} = [1,1]$$ (Visual fit: Good)
+*   **Model 2:** $$b = -4, \mathbf{w} = [1,1]$$ (Visual fit: Bad)
+
+![Decision Boundary Plot](/images/M3/decision-boundary-plot-lab-1.png)
+
+```python
+w_array1 = np.array([1,1])
+b_1 = -3
+w_array2 = np.array([1,1])
+b_2 = -4
+
+print("Cost for b = -3 : ", compute_cost_logistic(X_train, y_train, w_array1, b_1))
+print("Cost for b = -4 : ", compute_cost_logistic(X_train, y_train, w_array2, b_2))
+```
+
+**Results:**
+*   Cost for $$b = -3$$: **0.367** (Lower cost ✅)
+*   Cost for $$b = -4$$: **0.504** (Higher cost ❌)
+
+The cost function accurately reflects that Model 1 is better.
+
+---
+
+## 📝 Practice Quiz 
+
+### Question 1
+
+![Quiz 1](/images/M3/quiz-1.png)
+
+**In this lecture series, "cost" and "loss" have distinct meanings. Which one applies to a single training example?**
+
+1.  Loss
+2.  Cost
+3.  Both Loss and Cost
+4.  Neither Loss nor Cost
+
+**Correct Answer:** **1) Loss** ✅
+
+> *Note:* **Loss** applies to a single example. **Cost** applies to the average of losses over the entire training set.
+
+### Question 2
+
+![Quiz 2](/images/M3/quiz-2.png)
+
+**For the simplified loss function, if the label $$y^{(i)}=0$$, then what does this expression simplify to?**
+
+```math
+L = -y^{(i)}\log(f_{\mathbf{w},b}(\mathbf{x}^{(i)})) - (1 - y^{(i)}) \log(1 - f_{\mathbf{w},b}(\mathbf{x}^{(i)}))
+```
+
+*   **A)** $$-\log(1-f_{\mathbf{w},b}(\mathbf{x}^{(i)})) - \log(1-f_{\mathbf{w},b}(\mathbf{x}^{(i)}))$$
+*   **B)** $$\log(1-f_{\mathbf{w},b}(\mathbf{x}^{(i)})) + \log(1-f_{\mathbf{w},b}(\mathbf{x}^{(i)}))$$
+*   **C)** $$-\log(1-f_{\mathbf{w},b}(\mathbf{x}^{(i)}))$$
+*   **D)** $$\log(f_{\mathbf{w},b}(\mathbf{x}^{(i)}))$$
+
+**Correct Answer:** **C** ✅
+
+> *Derivation:* Substitute $$y^{(i)}=0$$.
+> 1.  The first term becomes $$-0 \cdot \log(\dots) = 0$$.
+> 2.  The second term becomes $$-(1-0)\log(1-f) = -1 \cdot \log(1-f)$$.
+> 3.  Final Result: $$-\log(1-f_{\mathbf{w},b}(\mathbf{x}^{(i)}))$$.
