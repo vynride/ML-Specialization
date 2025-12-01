@@ -1,12 +1,12 @@
 ---
-title: "📉 Gradient Descent in Practice"
+title: "Gradient Descent in Practice"
 order: 5
 description: Advanced techniques for linear regression, including feature scaling, feature engineering, and polynomial regression, along with practical lab exercises.
 ---
 
-# 📝 Advanced Regression Techniques
+# Advanced Regression Techniques
 
-## ⚖️ Scaling Features for Better Performance
+## Scaling Features for Better Performance
 
 When features in a dataset have vastly different ranges, it can slow down the convergence of gradient descent. Feature scaling is a technique to bring all features into a similar range, which helps gradient descent find the optimal solution more quickly.
 
@@ -31,7 +31,7 @@ As a result, the contour plot looks like a set of tall, narrow ellipses. Gradien
 
 By scaling the features (e.g., transforming both to a range of 0 to 1), the contours of the cost function become more circular. This allows gradient descent to take a more direct path to the global minimum.  
 
-### 🎯 Goal of Feature Scaling
+### Goal of Feature Scaling
 
 The main goal is to transform features so they have comparable ranges. This ensures that each feature contributes more equally to the model's learning process and helps gradient descent converge faster.  
 
@@ -40,25 +40,36 @@ The main goal is to transform features so they have comparable ranges. This ensu
 Here are three common methods for feature scaling:  
 
 1.  **Dividing by the Maximum**
-    *   **Formula:** $$x_1 = \frac{x_1}{\text{max}(x)}$$
+    *   **Formula:** 
+    
+    ```math 
+    x_1 = \frac{x_1}{\text{max}(x)}
+    ```
     *   This scales the feature to a range between 0 and 1 (or -1 and 1 if there are negative values). It's simple and effective for features that are strictly positive.  
     ![](/images/M2/dividing-by-maximum.png)
 
 2.  **Mean Normalization**  
-    *   **Formula:** $$x_1 = \frac{x_1 - \mu}{\text{max} - \text{min}}$$
+    *   **Formula:** 
+    ```math
+    x_1 = \frac{x_1 - \mu}{\text{max} - \text{min}}
+    ```
     *   This method centers the data around 0 and scales it by the range. The resulting features will generally be in the range of -1 to 1.  
     ![](/images/M2/mean-normalization.png)
 
 3.  **Z-Score Normalization**  
-    *   **Formula:** $$x_1 = \frac{x_1 - \mu_1}{\sigma_1}$$ (where  $$\mu_1$$ is the mean and $$\sigma_1$$ is the standard deviation of feature  $$x_1$$)
+    *   **Formula:** 
+    ```math 
+    x_1 = \frac{x_1 - \mu_1}{\sigma_1}
+    ```
+    (where  $$\mu_1$$ is the mean and $$\sigma_1$$ is the standard deviation of feature  $$x_1$$)
     *   This is a very common and effective method. It rescales features to have a mean of 0 and a standard deviation of 1.  
     ![](/images/M2/z-score-normalization.png)
 
-> **💡 Note:** When in doubt, applying feature scaling is generally a good idea and rarely hurts the model's performance.  
+> **Note:** When in doubt, applying feature scaling is generally a good idea and rarely hurts the model's performance.  
 
 ![](/images/M2/feature-rescaling-guide.png)
 
-### ❓ Knowledge Check  
+### Knowledge Check  
 
 **Question:** Which of the following is a valid step used during feature scaling?  
 
@@ -72,7 +83,7 @@ B. Divide each value by the maximum value for that feature.
 
 ---
 
-## 📉 Monitoring Gradient Descent
+## Monitoring Gradient Descent
 
 It's crucial to monitor gradient descent to ensure it's converging correctly.  
 
@@ -98,7 +109,7 @@ A good approach is to try a range of $$α$$ values (e.g., 0.001, 0.01, 0.1, 1.0)
 
 ![](/images/M2/gradient-descent-choice.png)
 
-### ❓ Knowledge Check
+### Knowledge Check
 
 **Question:** You run gradient descent for 15 iterations with $$α$$ = 0.3 and compute $$J(w)$$ after each iteration. You find that the value of $$J(w)$$ increases over time. How do you think you should adjust the learning rate $$α$$?
 
@@ -112,7 +123,7 @@ D. Try running it for only 10 iterations so $$J(w)$$ doesn't increase as much.
 
 ---
 
-## 🧪 Lab: Feature Scaling and Learning Rate in Practice
+## Lab: Feature Scaling and Learning Rate in Practice
 
 ### Goals
 *   Run Gradient Descent on a dataset with multiple features.  
@@ -420,7 +431,7 @@ These plots visually confirm why feature scaling works. The contours for the uns
 
 ---
 
-## 🛠️ Feature Engineering & Polynomial Regression
+## Feature Engineering & Polynomial Regression
 
 Linear regression can be extended to model non-linear relationships through **feature engineering**, which is the process of creating new features by transforming or combining existing ones.  
 
@@ -430,7 +441,7 @@ The choice of features significantly impacts a model's performance. By using dom
 
 ![](/images/M2/feature-engineering.png)
 
-#### ❓ Knowledge Check
+#### Knowledge Check
 
 **Question:** If you have measurements for the dimensions of a swimming pool (length, width, height), which of the following two would be a more useful engineered feature?  
 
@@ -457,7 +468,7 @@ Even though the function is a curve with respect to $$x$$, it is a **linear func
 
 ---
 
-## 🧪 Lab: Implementing Polynomial Regression
+## Lab: Implementing Polynomial Regression
 
 ### Goals
 *   Explore how to use feature engineering to fit non-linear data.  
@@ -626,7 +637,7 @@ model_w,model_b = run_gradient_descent_feng(X, y, iterations=1000000, alpha = 1e
 
 ---
 
-## 🤖 Lab: Linear Regression with Scikit-Learn
+## Lab: Linear Regression with Scikit-Learn
 
 Instead of implementing algorithms from scratch, we can use powerful, open-source libraries like **scikit-learn**.  
 
@@ -732,7 +743,7 @@ plt.show()
 
 ---
 
-## ✍️ Lab: Building Linear Regression from Scratch
+## Lab: Building Linear Regression from Scratch
 
 This lab walks through the implementation of linear regression for a single variable from the ground up.  
  
@@ -1042,7 +1053,7 @@ For population = 70,000, we predict a profit of $45342.45
 
 ---
 
-## 🧠 Practice Quiz
+## Practice Quiz
 
 **1. Which of the following is a valid step used during feature scaling?**  
 ![](/images/M2/gradient-descent-quiz-1.png)

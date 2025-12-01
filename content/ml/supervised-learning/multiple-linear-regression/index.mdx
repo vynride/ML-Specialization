@@ -1,14 +1,14 @@
 ---
-title: "🧠 Multiple Features & Vectorization"
+title: "Multiple Linear Regression"
 order: 4
 description: This section covers linear regression with multiple input variables, the concept of vectorization for computational efficiency, a practical guide to the NumPy library, and a hands-on lab implementation.
 ---
 
-## 📈 Multiple Features (Variables)
+## Multiple Features (Variables)
 
 When we move from a single feature to multiple features, our model for linear regression evolves to accommodate them.
 
-### Notation 🔢
+### Notation
 
 Let's define the precise notation for a model with multiple features, as seen in a typical dataset.
 
@@ -45,7 +45,7 @@ f_{\vec{w},b}(\vec{x}^{(i)}) = \vec{w} \cdot \vec{x}^{(i)} + b
 
 ---
 
-## 🚀 Vectorization
+## Vectorization
 
 **Vectorization** is the process of rewriting code to use operations on entire arrays (vectors or matrices) at once, rather than iterating through elements one by one. This technique leverages underlying hardware optimizations (like SIMD instructions on CPUs/GPUs) to perform computations much faster.
 
@@ -63,7 +63,7 @@ b = 4.0
 x = np.array([10, 20, 30])
 ```
 
-#### Sequential Implementation (Without Vectorization) 🐢
+#### Sequential Implementation (Without Vectorization) 
 
 This approach is slower to write and execute. We can calculate the prediction using a `for` loop.
 
@@ -82,7 +82,7 @@ f = f + b
 print(f"Prediction (loop): {f}") # Output: 1.0
 ```
 
-#### Vectorized Implementation (Using NumPy) 🏎️
+#### Vectorized Implementation (Using NumPy)
 
 This version is concise and runs significantly faster because `np.dot()` is highly optimized and executes in parallel.
 
@@ -110,9 +110,9 @@ Behind the scenes, modern processors can perform multiple calculations in a sing
 
 ---
 
-## 🧪 Lab: A Deep Dive into NumPy
+## Lab: A Deep Dive into NumPy
 
-### Understanding "Dimension" 🤔
+### Understanding "Dimension"
 
 The term "dimension" can be confusing because it has different meanings in mathematics and in NumPy.
 
@@ -299,7 +299,7 @@ np.dot(a, b) = 24, shape = ()
 np.dot(b, a) = 24
 ```
 
-### The Need for Speed: Vectorization vs. Loops ⚡
+### The Need for Speed: Vectorization vs. Loops
 
 A demonstration of the performance gain from vectorization on large arrays.
 
@@ -342,7 +342,7 @@ As shown, vectorization offers a massive speed-up by using optimized, paralleliz
 
 ### Note on Course Notation
 
-In this course, our training data `X\_train` will often be a 2-D array (matrix) of shape $$(m, n)$$, where $$m$$ is the number of training examples and $$n$$ is the number of features. When we process it example-by-example, we will index a single row, e.g., $$X[i]$$. This operation $$X[i]$$ returns a **1-D vector** of shape $$(n,)$$.
+In this course, our training data `X_train` will often be a 2-D array (matrix) of shape $$(m, n)$$, where $$m$$ is the number of training examples and $$n$$ is the number of features. When we process it example-by-example, we will index a single row, e.g., $$X[i]$$. This operation $$X[i]$$ returns a **1-D vector** of shape $$(n,)$$.
 
 ### Matrix Operations
 
@@ -430,7 +430,7 @@ a[1]   = [10 11 12 13 14 15 16 17 18 19]
 
 ---
 
-## 📉 Gradient Descent for Multiple Linear Regression
+## Gradient Descent for Multiple Linear Regression
 
 The algorithm for gradient descent remains the same, but the implementation now uses vector operations.
 
@@ -448,23 +448,23 @@ The partial derivatives are calculated as follows for each weight $$w_j$$:
 
 ---
 
-## ⚖️ An Alternative to Gradient Descent
+## An Alternative to Gradient Descent
 
 ### Normal Equation
 
 The Normal Equation is an analytical, non-iterative method for finding the optimal values of $$\vec{w}$$ and $$b$$ for linear regression.
 
-#### Advantages ✅
+#### Advantages 
 *   No need to choose a learning rate ($$\alpha$$).
 *   No iterations are needed; it provides a direct solution.
 
-#### Disadvantages ❌
+#### Disadvantages
 *   It does **not** generalize to other learning algorithms (like logistic regression).
 *   It can be computationally slow when the number of features ($$n$$) is very large (e.g., $$n$$ > 10,000), due to the need to compute a matrix inverse, which is an $$O(n^3)$$ operation.
 
 ---
 
-## 💻 Lab: Multiple Variable Linear Regression
+## Lab: Multiple Variable Linear Regression
 
 Let's apply the concepts above in a practical lab setting.
 
@@ -781,7 +781,7 @@ prediction: 286.17, target value: 232
 prediction: 171.47, target value: 178
 ```
 
-### Visualizing the Results 📊
+### Visualizing the Results
 Plotting the cost function over iterations helps us see if gradient descent is converging.
 
 ```python

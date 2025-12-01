@@ -6,7 +6,7 @@ description: This section cover the Cost Function for Logistic Regression
 
 The **Cost Function** provides a way to measure how well a specific set of parameters fits the training data. It thereby acts as a compass, helping us choose a better set of parameters during optimization.
 
-## Why Not Mean Squared Error (MSE)? 🤔
+## Why Not Mean Squared Error (MSE)?
 
 ![Logistic Regression Training Set](/images/M3/logistic-regression-training-set.png)
 
@@ -26,7 +26,7 @@ If we try to use MSE with this non-linear function:
 
 Therefore, **we cannot use the Mean Squared Error Cost Function for Logistic Regression.**
 
-## Logistic Loss Function 🔍
+## Logistic Loss Function
 
 To handle classification (where $y$ is 0 or 1), we define a specific **Loss** function for a single training example.
 
@@ -79,20 +79,20 @@ The final Cost function is the average of these losses over the training set.
 
 ---
 
-### 🧠 Concept Check
+### Concept Check
 
 **Question:** Why is the squared error cost not used in logistic regression?
 
 *   **A)** The non-linear nature of the model results in a “wiggly”, non-convex cost function with many potential local minima.
 *   **B)** The mean squared error is used for logistic regression.
 
-**Correct Answer:** **A** ✅
+**Correct Answer:** **A** 
 
 > *Explanation:* Using mean squared error for logistic regression creates a "non-convex" cost function, making it difficult for gradient descent to find the optimal parameters $$w$$ and $$b$$.
 
 ---
 
-## 🧪 Lab: Logistic Loss Exploration 
+## Lab: Logistic Loss Exploration 
 
 In this section, we explore *why* squared error is unsuitable and examine the logistic loss function.
 
@@ -183,7 +183,7 @@ Combined, these curves provide a convex shape (like a bowl) when aggregated into
 
 ---
 
-## Simplified Cost Function ⚡️
+## Simplified Cost Function
 
 Writing code with `if/else` statements for every data point is inefficient. We can compress the two cases into a single mathematical equation.
 
@@ -223,7 +223,7 @@ J(\mathbf{w},b) = - \frac{1}{m} \sum_{i=0}^{m-1} \left[ y^{(i)} \log(f_{\mathbf{
 
 ---
 
-### 🧠 Quiz: Simplified Loss
+### Quiz: Simplified Loss
 
 **Question:** If the target $$y^{(i)}=1$$, what does the simplified expression simplify to?
 
@@ -234,13 +234,13 @@ L = -y^{(i)}\log(f_{\mathbf{w},b}(\mathbf{x}^{(i)})) - (1 - y^{(i)}) \log(1 - f_
 *   **A)** $$-\log(f_{\mathbf{w},b}(\mathbf{x}^{(i)}))$$
 *   **B)** $$-\log(1 - f_{\mathbf{w},b}(\mathbf{x}^{(i)}))$$
 
-**Correct Answer:** **A** ✅
+**Correct Answer:** **A** 
 
 > *Derivation:* Substitute $$y^{(i)}=1$$. The second term becomes zero because $$(1-1)=0$$. The first term remains as $$-1 \cdot \log(f_{\mathbf{w},b}(\mathbf{x}^{(i)}))$$.
 
 ---
 
-## 💻 Lab: Implementing the Cost Function 
+## Lab: Implementing the Cost Function 
 
 Let's implement this in Python.
 
@@ -326,14 +326,14 @@ print("Cost for b = -4 : ", compute_cost_logistic(X_train, y_train, w_array2, b_
 ```
 
 **Results:**
-*   Cost for $$b = -3$$: **0.367** (Lower cost ✅)
-*   Cost for $$b = -4$$: **0.504** (Higher cost ❌)
+*   Cost for $$b = -3$$: **0.367** (Lower cost)
+*   Cost for $$b = -4$$: **0.504** (Higher cost)
 
 The cost function accurately reflects that Model 1 is better.
 
 ---
 
-## 📝 Practice Quiz 
+## Practice Quiz 
 
 ### Question 1
 
@@ -346,7 +346,7 @@ The cost function accurately reflects that Model 1 is better.
 3.  Both Loss and Cost
 4.  Neither Loss nor Cost
 
-**Correct Answer:** **1) Loss** ✅
+**Correct Answer:** **1) Loss**
 
 > *Note:* **Loss** applies to a single example. **Cost** applies to the average of losses over the entire training set.
 
@@ -365,7 +365,7 @@ L = -y^{(i)}\log(f_{\mathbf{w},b}(\mathbf{x}^{(i)})) - (1 - y^{(i)}) \log(1 - f_
 *   **C)** $$-\log(1-f_{\mathbf{w},b}(\mathbf{x}^{(i)}))$$
 *   **D)** $$\log(f_{\mathbf{w},b}(\mathbf{x}^{(i)}))$$
 
-**Correct Answer:** **C** ✅
+**Correct Answer:** **C**
 
 > *Derivation:* Substitute $$y^{(i)}=0$$.
 > 1.  The first term becomes $$-0 \cdot \log(\dots) = 0$$.

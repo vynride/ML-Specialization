@@ -1,17 +1,17 @@
 ---
-title: "🧠 Classification with Logistic Regression"
+title: "Classification with Logistic Regression"
 order: 6
 description: Classification is a type of supervised learning where the the model's goal is to predict which category a new observation belongs to.
 ---
 
-## 📝 Classification
+## Classification
 
 Classification problems are everywhere. The goal is to assign an input to one of a discrete number of categories or classes.
 
 **Examples:** History
-*   📧 Is this email spam? ```(Yes/No)```
-*   💳 Is the transaction fraudulent? ```(Yes/No)```
-*   🩺 Is this tumor malignant? ```(Yes/No)```
+*   Is this email spam? ```(Yes/No)```
+*   Is the transaction fraudulent? ```(Yes/No)```
+*   Is this tumor malignant? ```(Yes/No)```
 
 ![Classification Problems](/images/M3/classification-problems.png)
 
@@ -25,7 +25,7 @@ We often use specific terms and numerical representations for these two classes:
 
 ---
 
-## 🤔 Why Not Use Linear Regression?
+## Why Not Use Linear Regression?
 
 At first glance, one might think of using linear regression for classification problems. After all, if the output is just `0` or `1`, why not fit a line and see if the output is closer to 0 or 1? However, this approach has significant flaws.
 
@@ -39,7 +39,7 @@ If we add an outlier to the training data, the best-fit line of the linear regre
 <br/>
 
 <details>
-<summary><b>🧪 Lab: Demonstrating the Problem with Linear Regression</b></summary>
+<summary><b>Lab: Demonstrating the Problem with Linear Regression</b></summary>
 
 ### Goal
 In this lab, you will contrast regression and classification and see why linear regression is not ideal for classification tasks.
@@ -107,7 +107,7 @@ This lab demonstrates that a linear model is insufficient for categorical data. 
 
 ---
 
-## 🤖 Logistic Regression
+## Logistic Regression
 
 Logistic Regression is one of the most popular and widely used classification algorithms. It is a go-to method for binary classification problems, despite its name suggesting it's a regression technique.
 
@@ -145,7 +145,7 @@ f_{\mathbf{w},b}(\mathbf{x}) = P(y = 1 | \mathbf{x}; \mathbf{w}, b)
 
 ---
 
-## 🚧 The Decision Boundary
+## The Decision Boundary
 
 The decision boundary is the line or surface that separates the different classes predicted by the model. It's the threshold where the model switches from predicting one class to another.
 
@@ -192,7 +192,7 @@ By setting this more complex argument $$z$$ to zero, we can create more complex 
 ![Complex Decision Boundary](/images/M3/complex-decision-boundary.png)
 ![Non-Linear Decision Boundary](/images/M3/non-linear-decision-boundary.png)
 
-> **🧠 Food for thought:** Let's say you are creating a tumor detection algorithm. The model outputs a probability that a tumor is malignant. A specialist will later inspect any tumors flagged by your algorithm. What value should you use for a threshold?
+> **Food for thought:** Let's say you are creating a tumor detection algorithm. The model outputs a probability that a tumor is malignant. A specialist will later inspect any tumors flagged by your algorithm. What value should you use for a threshold?
 > *   A. High, say a threshold of 0.9?
 > *   B. Low, say a threshold of 0.2?
 >
@@ -201,7 +201,7 @@ By setting this more complex argument $$z$$ to zero, we can create more complex 
 <br/>
 
 <details>
-<summary><b>🧪 Lab: Logistic Regression and Decision Boundaries</b></summary>
+<summary><b>Lab: Logistic Regression and Decision Boundaries</b></summary>
 
 ### Goals
 *   Explore the sigmoid function.
@@ -322,7 +322,7 @@ This visualization clearly shows how the logistic regression model separates the
 </details>
 
 ---
-## ✅ Practice Quiz
+## Practice Quiz
 
 **Question 1:**
 Which is an example of a classification task?

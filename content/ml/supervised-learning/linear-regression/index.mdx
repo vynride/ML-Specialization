@@ -1,16 +1,16 @@
 ---
-title: "📚 Regression"
+title: "Linear Regression"
 order: 2
 description: This section covers Linear Regression, a foundational concept in Supervised Learning.
 ---
 
-## 📈 Chapter 1: Linear Regression
+## Chapter 1: Linear Regression
 
 Linear Regression is a fundamental algorithm used to predict a continuous numerical value. We start by building a model that can predict housing prices based on the size of the house.
 
 ![Linear Regression Model Diagram](/images/M1/linear-regression.png)
 
-### 📝 Notation
+### Notation
 
 To understand the model, let's first define our notation:
 
@@ -21,7 +21,7 @@ To understand the model, let's first define our notation:
 -   $$(x, y)$$: A single training example.
 -   $$(x^{(i)}, y^{(i)})$$: The i-th training example in the dataset (e.g., $$(x^{(1)}, y^{(1)})$$ is the first example).
 
-### 🧠 The Model (Hypothesis)
+### The Model (Hypothesis)
 
 The model is a function, which we'll call $$f$$, that takes an input $$x$$ and produces a prediction $$ŷ$$ (pronounced "y-hat").
 
@@ -41,7 +41,7 @@ Here:
 
 ![Linear Regression Function](/images/M1/linear-regression-2.png)
 
-### 🧪 Lab: Model Representation in Python
+### Lab: Model Representation in Python
 
 Here is a simple implementation of the linear regression model using Python, NumPy, and Matplotlib.
 
@@ -116,7 +116,7 @@ print(f"Predicted price for a 1200 sqft house: ${cost_1200sqft:.0f} thousand dol
 
 ---
 
-## 💰 The Cost Function
+## The Cost Function
 
 To find the best possible line to fit our data, we need a way to measure how well our model is performing. This is where the **Cost Function**, denoted as $$J(w, b)$$, comes in.
 
@@ -128,7 +128,7 @@ The cost function measures the difference (or error) between the model's predict
 
 ![Goal of Minimizing Cost](/images/M1/goal.png)
 
-### 🤔 Cost Function Intuition
+### Cost Function Intuition
 
 Let's simplify our model to build intuition. Assume $$b = 0$$, so our model is just $$f_w(x) = w*x$$. The line must pass through the origin.
 
@@ -152,7 +152,7 @@ Plotting $$J(w)$$ for a range of $$w$$ values gives us a parabola (a bowl shape)
 ![J(w) Plot](/images/M1/jw-plot.png)
 ![Minimizing J(w)](/images/M1/minimizing-jw.png)
 
-### 🎨 Visualizing the Full Cost Function $$J(w, b)$$
+### Visualizing the Full Cost Function $$J(w, b)$$
 
 When we re-introduce the bias term $$b$$, our cost function $$J(w, b)$$ depends on two parameters. Visualizing this requires a 3D plot.
 
@@ -175,7 +175,7 @@ As we move the point $$(w, b)$$ on the contour plot, the prediction line $$f(x)$
 
 ![Cost Function Visualization Example](/images/M1/cost-function-visualization.png)
 
-### 🧪 Lab: Visualizing the Cost Function
+### Lab: Visualizing the Cost Function
 
 This lab provides interactive plots to explore how $$w$$ and $$b$$ affect the cost $$J(w, b)$$.
 
@@ -232,7 +232,7 @@ soup_bowl()
 
 ---
 
-### ✍️ Summary from Notes
+### Summary from Notes
 
 The core formulas for the Linear Regression model and its cost function are:
 
