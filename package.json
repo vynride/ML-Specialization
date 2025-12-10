@@ -10,27 +10,27 @@
 		"lint": "eslint"
 	},
 	"dependencies": {
-		"fumadocs-core": "15.8.1",
-		"fumadocs-mdx": "12.0.1",
-		"fumadocs-ui": "15.8.1",
-		"katex": "^0.16.22",
+		"fumadocs-core": "15.8.5",
+		"fumadocs-mdx": "12.0.3",
+		"fumadocs-ui": "15.8.5",
+		"katex": "^0.16.27",
 		"next": "15.5.7",
-		"react": "^19.1.1",
-		"react-dom": "^19.1.1",
+		"react": "^19.2.1",
+		"react-dom": "^19.2.1",
 		"rehype-katex": "^7.0.1",
 		"remark-math": "^6.0.0"
 	},
 	"devDependencies": {
 		"@eslint/eslintrc": "^3",
-		"@tailwindcss/postcss": "^4.1.13",
+		"@tailwindcss/postcss": "^4.1.17",
 		"@types/mdx": "^2.0.13",
-		"@types/node": "24.5.2",
-		"@types/react": "^19.1.14",
-		"@types/react-dom": "^19.1.9",
+		"@types/node": "24.10.2",
+		"@types/react": "^19.2.7",
+		"@types/react-dom": "^19.2.3",
 		"eslint": "^9",
-		"eslint-config-next": "15.5.4",
+		"eslint-config-next": "15.5.7",
 		"postcss": "^8.5.6",
-		"tailwindcss": "^4.1.13",
-		"typescript": "^5.9.2"
+		"tailwindcss": "^4.1.17",
+		"typescript": "^5.9.3"
 	}
 }
