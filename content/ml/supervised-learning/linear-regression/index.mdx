@@ -23,10 +23,10 @@ To understand the model, let's first define our notation:
 
 ### The Model (Hypothesis)
 
-The model is a function, which we'll call $$f$$, that takes an input $$x$$ and produces a prediction $$ŷ$$ (pronounced "y-hat").
+The model is a function, which we'll call $$f$$, that takes an input $$x$$ and produces a prediction $$\hat{y}$$ (pronounced "y-hat").
 
 -   $$f$$: The model or hypothesis function.
--   $$ŷ$$: The predicted output from the model.
+-   $$\hat{y}$$: The predicted output from the model.
 
 For **Univariate Linear Regression** (linear regression with one variable), the model $$f$$ is a linear function:
 
@@ -120,7 +120,7 @@ print(f"Predicted price for a 1200 sqft house: ${cost_1200sqft:.0f} thousand dol
 
 To find the best possible line to fit our data, we need a way to measure how well our model is performing. This is where the **Cost Function**, denoted as $$J(w, b)$$, comes in.
 
-The cost function measures the difference (or error) between the model's predictions ($$ŷ$$) and the actual target values ($$y$$). For linear regression, the most common cost function is the **Squared Error Cost Function**.
+The cost function measures the difference (or error) between the model's predictions ($$\hat{y}$$) and the actual target values ($$y$$). For linear regression, the most common cost function is the **Squared Error Cost Function**.
 
 ![Cost Function Formula](/images/M1/cost-function.png)
 
