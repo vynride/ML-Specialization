@@ -1,0 +1,506 @@
+---
+title: "Regularization in Linear and Logistic Regression"
+order: 10
+---
+
+## Overfitting and Underfitting
+
+### Definitions
+
+**Overfitting (High Variance)**
+This occurs when the algorithm tries to fit the training data too well and fails to generalize.
+*   **Characteristics:** Uses too many features.
+*   **Result:** Error is almost zero on training data, but the model performs poorly on new, unseen data.
+
+**Underfitting (High Bias)**
+This occurs when the algorithm does not fit the training data well and fails to make accurate predictions.
+*   **Characteristics:** Uses too few features.
+*   **Result:** Error is high on training data, and the model performs poorly overall.
+
+![Overfitting and Underfitting](/images/M3/overfitting-and-underfitting.png)
+
+When applying these concepts to classification with **Logistic Regression**, the idea is quite similar:
+
+![Overfitting and Underfitting in Logistic Regression](/images/M3/overfitting-and-underfitting-classification.png)
+
+---
+
+### Concept Quiz
+
+**Question:** Our goal when creating a model is to be able to use the model to predict outcomes correctly for new examples. A model which does this is said to generalize well. When a model fits the training data well but does not work well with new examples that are not in the training set, this is an example of:
+
+A. None of the above  
+B. Underfitting (high bias)  
+C. Overfitting (high variance)  
+D. A model that generalizes well (neither high variance nor high bias)  
+> **Answer:** **C. Overfitting**.  
+> *Explanation: This is exactly when the model does not generalize well to new examples despite low training error.*
+
+---
+
+## Addressing Overfitting
+
+There are three main ways to address overfitting:
+
+### 1. Collect More Training Data
+With a larger training set, the learning algorithm will learn to fit a function that is less "wiggly" and more generalized.
+
+![Addressing Overfitting](/images/M3/addressing-overfitting-1.png)
+
+### 2. Feature Selection
+If we have many features and limited training data, the model is more likely to overfit. In such cases, it is advised to choose only a subset of the most useful features.
+*   **Example:** Keep *size, bedroom, age*. Discard *distance to coffee shop*.
+*   **Disadvantage:** Useful information about the data might be lost.
+
+![Addressing Overfitting](/images/M3/addressing-overfitting-2.png)
+
+### 3. Regularization
+In an overfit model, we often notice that the parameters $$w_j$$ are relatively large. Regularization works by encouraging the learning algorithm to shrink the values of the parameters without demanding they be set to exactly zero (unlike feature elimination).
+
+*   **Benefit:** It allows us to keep all features but prevents them from having an overly large impact.
+*   **Convention:** We generally only regularize the parameters $$w_j$$ and leave $$b$$ alone, as regularizing $$b$$ typically makes little difference.
+
+![Addressing Overfitting](/images/M3/addressing-overfitting-3.png)
+
+![Recap of Addressing Overfitting](/images/M3/addressing-overfitting-4.png)
+
+**Question:** 
+Applying regularization, increasing the number of training examples, or selecting a subset of the most relevant features are methods for...
+
+> **Answer: A. Addressing overfitting (high variance).**
+
+---
+
+## Cost Function with Regularization
+
+### The Intuition
+Given a function
+```math
+f(x) = w_1x + w_2x^2 + w_3x^3 + w_4x^4 + b
+```
+
+If we want to penalize specific terms (e.g., $$w_3$$ and $$w_4$$) to prevent them from becoming too large, we can modify the cost function:
+
+```math
+J(w, b) = \frac{1}{2m} \sum_{i=1}^{m} (f_{w,b}(x^{(i)}) - y^{(i)})^2 + 1000w_3^2 + 1000w_4^4
+```
+
+By adding a large penalty (1000), the model is forced to keep $$w_3$$ and $$w_4$$ small to minimize the overall cost.
+
+![Cost Function for Regularization](/images/M3/cost-function-for-regularization.png)
+
+### Generalized Regularized Cost Function
+Since we don't know in advance which features are "bad", we penalize **all** $$w_j$$ parameters.
+
+```math
+J(\vec{w}, b) = \frac{1}{2m} \sum_{i=1}^{m} (f_{\vec{w},b}(\vec{x}^{(i)}) - y^{(i)})^2 + \frac{\lambda}{2m} \sum_{j=1}^{n} w_j^2
+```
+
+*   $$\lambda$$ (Lambda): The **regularization parameter** ($$\lambda > 0$$).
+*   The term 
+```math
+\frac{\lambda}{2m} \sum w_j^2
+```
+balances the trade-off between fitting the data (MSE) and keeping parameters small (Regularization).
+*   **Minimizing MSE Term:** Reduces error between prediction and true value.
+*   **Minimizing Regularization Term:** Keeps $$w_j$$ small to reduce overfitting.
+
+![Regularization Parameter](/images/M3/regularization-parameter.png)
+
+### Choosing Lambda ($$\lambda$$)
+*   **If $$\lambda \approx 0$$:**  
+No regularization. The model minimizes MSE only, leading to **Overfitting**.
+*   **If $$\lambda$$ is extremely large (e.g., $$10^{10}$$):**  
+The model forces $$w_j \approx 0$$. The function becomes $$f(x) = b$$ (a flat line). This leads to **Underfitting**.
+
+![Regularization Parameter Intuition](/images/M3/regularization-parameter-intuition.png)
+
+**Question:** For a model that includes the regularization parameter $$\lambda$$, increasing $$\lambda$$ will tend to:
+
+> **Answer: A. Decrease the size of parameters $$w_1, w_2, ..., w_n$$**.
+
+---
+
+## Regularized Linear Regression
+
+### Cost Function
+```math 
+\min_{\vec{w},b} J(\vec{w},b) = \min_{\vec{w},b} \left[ \frac{1}{2m} \sum_{i=1}^{m} (f_{\vec{w},b}(\vec{x}^{(i)}) - y^{(i)})^2 + \frac{\lambda}{2m} \sum_{j=1}^{n} w_j^2 \right]
+```
+
+### Gradient Descent Update Rule
+The update rule applies simultaneously to all $$j$$:
+
+```math
+\begin{align*}
+\text{Repeat until convergence: } \{ \\
+w_j &= w_j - \alpha \frac{\partial J(\vec{w},b)}{\partial w_j} \\
+b &= b - \alpha \frac{\partial J(\vec{w},b)}{\partial b} \\
+\}
+\end{align*}
+```
+
+Substituting the derivatives:
+
+```math
+w_j = w_j - \alpha \left[ \frac{1}{m} \sum_{i=1}^{m} (f_{\vec{w},b}(\vec{x}^{(i)}) - y^{(i)})x_j^{(i)} + \frac{\lambda}{m} w_j \right]
+```
+<br></br>
+```math
+b = b - \alpha \left[ \frac{1}{m} \sum_{i=1}^{m} (f_{\vec{w},b}(\vec{x}^{(i)}) - y^{(i)}) \right]
+```
+
+We can rearrange the update for $$w_j$$ to see the impact clearly:
+
+```math 
+w_j = w_j \left(1 - \alpha \frac{\lambda}{m}\right) - \alpha \frac{1}{m} \sum_{i=1}^{m} (f_{\vec{w},b}(\vec{x}^{(i)}) - y^{(i)})x_j^{(i)}
+```
+
+*   The term 
+```math 
+(1 - \alpha \frac{\lambda}{m})
+```
+is usually slightly less than 1 (e.g., 0.99).
+*   This shrinks $$w_j$$ slightly on every iteration before the standard gradient update is applied.
+
+![Regularized Linear Regression](/images/M3/regularization-linear-regression.png)
+![Regularized Linear Regression Derivation](/images/M3/regularization-linear-regression-derivation-1.png)
+
+---
+
+## Regularized Logistic Regression
+
+When training Logistic Regression with many features (e.g., high-degree polynomials), the risk of overfitting increases.
+
+### Cost Function
+The cost function is the standard Log Loss plus the regularization term:
+
+```math
+J(\vec{w},b) = -\frac{1}{m} \sum_{i=1}^{m} \left[ y^{(i)} \log(f_{\vec{w},b}(\vec{x}^{(i)})) + (1-y^{(i)}) \log(1 - f_{\vec{w},b}(\vec{x}^{(i)})) \right] + \frac{\lambda}{2m} \sum_{j=1}^{n} w_j^2
+```
+
+### Gradient Descent
+The update rules look identical to Linear Regression, but remember that for Logistic Regression, 
+```math
+f_{\vec{w},b}(\vec{x}) = \text{sigmoid}(\vec{w} \cdot \vec{x} + b)
+```
+<br></br>
+```math
+w_j = w_j - \alpha \left[ \frac{1}{m} \sum_{i=1}^{m} (f_{\vec{w},b}(\vec{x}^{(i)}) - y^{(i)})x_j^{(i)} + \frac{\lambda}{m} w_j \right]
+```
+<br></br>
+```math
+b = b - \alpha \left[ \frac{1}{m} \sum_{i=1}^{m} (f_{\vec{w},b}(\vec{x}^{(i)}) - y^{(i)}) \right]
+```
+
+![Gradient descent for regularized logistic regression](/images/M3/gradient-descent-for-regularized-logistic-regression.png)
+
+---
+
+## Lab: Implementation in Python
+
+The following sections implement regularized Linear and Logistic regression using `numpy`.
+
+### 1. Sigmoid Function
+Implementation of the helper function 
+```math
+g(z) = \frac{1}{1+e^{-z}}
+```
+
+```python
+import numpy as np
+import math
+
+def sigmoid(z):
+    """
+    Compute the sigmoid of z
+    Args:
+        z (ndarray): A scalar, numpy array of any size.
+    Returns:
+        g (ndarray): sigmoid(z), with the same shape as z
+    """
+    g = 1 / (1 + np.exp(-z))
+    return g
+```
+
+**Output Verification:**
+```text
+sigmoid([ -1, 0, 1, 2]) = [0.26894142 0.5        0.73105858 0.88079708]
+```
+
+### 2. Cost Functions with Regularization
+
+#### Linear Regression Cost
+Includes the term: 
+```math 
+\frac{\lambda}{2m} \sum w_j^2
+```
+
+```python
+def compute_cost_linear_reg(X, y, w, b, lambda_ = 1):
+    """
+    Computes the cost over all examples
+    Args:
+      X (ndarray (m,n): Data, m examples with n features
+      y (ndarray (m,)): target values
+      w (ndarray (n,)): model parameters  
+      b (scalar)      : model parameter
+      lambda_ (scalar): Controls amount of regularization
+    Returns:
+      total_cost (scalar):  cost 
+    """
+    m  = X.shape[0]
+    n  = len(w)
+    cost = 0.
+    for i in range(m):
+        f_wb_i = np.dot(X[i], w) + b
+        cost = cost + (f_wb_i - y[i])**2             
+    cost = cost / (2 * m)
+ 
+    reg_cost = 0
+    for j in range(n):
+        reg_cost += (w[j]**2)
+    reg_cost = (lambda_/(2*m)) * reg_cost
+    
+    total_cost = cost + reg_cost
+    return total_cost
+```
+
+**Output Verification:**
+```text
+Regularized cost: 0.07917239320214275
+```
+
+#### Logistic Regression Cost
+Implementation of Equation:
+```math
+J(\vec{w},b) = \frac{1}{m} \sum_{i=0}^{m-1} \left[ -y^{(i)} \log\left(f_{\vec{w},b}\left( \vec{x}^{(i)} \right) \right) - \left( 1 - y^{(i)}\right) \log \left( 1 - f_{\vec{w},b}\left( \vec{x}^{(i)} \right) \right) \right] + \frac{\lambda}{2m} \sum_{j=0}^{n-1} w_j^2
+```
+
+<details>
+<summary>Click to view code: Regularized Logistic Cost</summary>
+
+```python
+def compute_cost_logistic_reg(X, y, w, b, lambda_ = 1):
+    """
+    Computes the cost over all examples with regularization
+    Args:
+      X (ndarray (m,n): Data, m examples with n features
+      y (ndarray (m,)): target values
+      w (ndarray (n,)): model parameters  
+      b (scalar)      : model parameter
+      lambda_ (scalar): Controls amount of regularization
+    Returns:
+      total_cost (scalar):  cost 
+    """
+    m,n  = X.shape
+    cost = 0.
+    for i in range(m):
+        z_i = np.dot(X[i], w) + b
+        f_wb_i = sigmoid(z_i)
+        # Prevent log(0) errors by clipping or handling edge cases in production
+        cost += -y[i]*np.log(f_wb_i) - (1-y[i])*np.log(1-f_wb_i)
+             
+    cost = cost/m
+
+    reg_cost = 0
+    for j in range(n):
+        reg_cost += (w[j]**2)
+    reg_cost = (lambda_/(2*m)) * reg_cost
+    
+    total_cost = cost + reg_cost
+    return total_cost
+```
+</details>
+
+**Output Verification:**
+```text
+Regularized cost: 0.6850849138741673
+```
+
+### 3. Gradient Descent with Regularization
+
+The gradient calculation adds the term $$\frac{\lambda}{m} w_j$$ to the partial derivative with respect to $$w_j$$. The bias $$b$$ is **not** regularized.
+
+#### Linear Regression Gradient
+
+```python
+def compute_gradient_linear_reg(X, y, w, b, lambda_): 
+    """
+    Computes the gradient for linear regression 
+    """
+    m,n = X.shape
+    dj_dw = np.zeros((n,))
+    dj_db = 0.
+
+    for i in range(m):                             
+        err = (np.dot(X[i], w) + b) - y[i]                 
+        for j in range(n):                         
+            dj_dw[j] = dj_dw[j] + err * X[i, j]               
+        dj_db = dj_db + err                        
+    dj_dw = dj_dw / m                                
+    dj_db = dj_db / m   
+    
+    # Add Regularization term
+    for j in range(n):
+        dj_dw[j] = dj_dw[j] + (lambda_/m) * w[j]
+
+    return dj_db, dj_dw
+```
+
+**Output Verification:**
+```text
+dj_db: 0.6648774569425726
+Regularized dj_dw:
+ [0.29653214748822276, 0.4911679625918033, 0.21645877535865857]
+```
+
+#### Logistic Regression Gradient
+
+<details>
+<summary>Click to view code: Regularized Logistic Gradient</summary>
+
+```python
+def compute_gradient_logistic_reg(X, y, w, b, lambda_): 
+    """
+    Computes the gradient for logistic regression 
+    Args:
+      X (ndarray (m,n): Data
+      y (ndarray (m,)): target values
+      w (ndarray (n,)): parameters  
+      b (scalar)      : parameter
+      lambda_ (scalar): Regularization constant
+    Returns
+      dj_dw (ndarray Shape (n,)): Gradient of cost w.r.t. parameters w. 
+      dj_db (scalar)            : Gradient of cost w.r.t. parameter b. 
+    """
+    m,n = X.shape
+    dj_dw = np.zeros((n,))
+    dj_db = 0.0
+
+    for i in range(m):
+        f_wb_i = sigmoid(np.dot(X[i],w) + b)
+        err_i  = f_wb_i  - y[i]
+        for j in range(n):
+            dj_dw[j] = dj_dw[j] + err_i * X[i,j]
+        dj_db = dj_db + err_i
+    dj_dw = dj_dw/m
+    dj_db = dj_db/m
+
+    # Add Regularization term
+    for j in range(n):
+        dj_dw[j] = dj_dw[j] + (lambda_/m) * w[j]
+
+    return dj_db, dj_dw
+```
+</details>
+
+**Output Verification:**
+```text
+dj_db: 0.341798994972791
+Regularized dj_dw:
+ [0.17380012933994293, 0.32007507881566943, 0.10776313396851499]
+```
+
+### 4. Gradient Descent Algorithm
+
+The loop that applies the updates. This function works for both linear and logistic regression provided the correct `cost_function` and `gradient_function` are passed.
+
+<details>
+<summary>Click to view code: Gradient Descent Loop</summary>
+
+```python
+def gradient_descent(X, y, w_in, b_in, cost_function, gradient_function, alpha, num_iters, lambda_): 
+    """
+    Performs batch gradient descent to learn theta.
+    """
+    # number of training examples
+    m = len(X)
+    
+    # Arrays to store cost J and w's at each iteration
+    J_history = []
+    w_history = []
+    
+    for i in range(num_iters):
+
+        # Calculate the gradient and update the parameters
+        dj_db, dj_dw = gradient_function(X, y, w_in, b_in, lambda_)   
+
+        # Update Parameters using w, b, alpha and gradient
+        w_in = w_in - alpha * dj_dw               
+        b_in = b_in - alpha * dj_db              
+       
+        # Save cost J at each iteration
+        if i < 100000:      # prevent resource exhaustion 
+            cost =  cost_function(X, y, w_in, b_in, lambda_)
+            J_history.append(cost)
+
+        # Print cost every at intervals 10 times or as many iterations if < 10
+        if i % math.ceil(num_iters/10) == 0 or i == (num_iters-1):
+            w_history.append(w_in)
+            print(f"Iteration {i:4}: Cost {float(J_history[-1]):8.2f}   ")
+        
+    return w_in, b_in, J_history, w_history
+```
+</details>
+
+**Expected Output (Regularized Logistic Regression):**
+```text
+Iteration    0: Cost     0.72   
+Iteration 1000: Cost     0.59   
+Iteration 2000: Cost     0.56   
+Iteration 3000: Cost     0.53   
+Iteration 4000: Cost     0.51   
+Iteration 5000: Cost     0.50   
+Iteration 6000: Cost     0.48   
+Iteration 7000: Cost     0.47   
+Iteration 8000: Cost     0.46   
+Iteration 9000: Cost     0.45   
+Iteration 9999: Cost     0.45 
+```
+
+### 5. Prediction
+
+To interpret the output of Logistic Regression as a class label (0 or 1), we apply a threshold (usually 0.5).
+
+```python
+def predict(X, w, b): 
+    """
+    Predict whether the label is 0 or 1 using learned logistic
+    regression parameters w
+    """
+    m, n = X.shape   
+    p = np.zeros(m)
+   
+    for i in range(m):   
+        z_wb = np.dot(X[i], w) + b
+        f_wb = sigmoid(z_wb)
+
+        # Apply the threshold
+        p[i] = f_wb >= 0.5
+        
+    return p
+```
+
+**Output Verification:**
+```text
+Output of predict: shape (4,), value [0. 1. 1. 1.]
+Train Accuracy: 82.203390
+```
+
+---
+
+## Visualizing Regularization Effects
+
+In the lab exercises, mapping features to higher degrees (e.g., polynomial mapping) allows decision boundaries to be non-linear. However, this often leads to overfitting.
+
+*   **No Regularization ($$\lambda = 0$$):**  
+The boundary is very "wiggly" and overfits the training set.
+*   **High Regularization ($$\lambda = 1$$):**  
+The boundary smoothes out, sacrificing some training accuracy for better generalization.
+
+**Decision Boundary without Regularization:**
+![](/images/M3/microchips-data-plot-lab-1.png)
+
+**Decision Boundary with Regularization:**
+![](/images/M3/non-linear-decision-boundary-2.png)

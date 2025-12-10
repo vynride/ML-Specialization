@@ -1,3 +1,3 @@
 {
-  "pages": ["intro", "linear-regression", "gradient-descent", "multiple-linear-regression", "gradient-descent-in-practice", "classification-with-logistic-regression", "cost-function-for-logistic-regression", "gradient-descent-for-logistic-regression", "labs"]
+  "pages": ["intro", "linear-regression", "gradient-descent", "multiple-linear-regression", "gradient-descent-in-practice", "classification-with-logistic-regression", "cost-function-for-logistic-regression", "gradient-descent-for-logistic-regression", "the-problem-of-overfitting", "labs"]
 }
